@@ -29,6 +29,11 @@ connection.connect((err) => {
 // Functions
 //
 
+async function get_accounts(ID) {
+    const [Accounts] = connection.query(`SELECT Account_name, Account_number, Balance, Created_at`)
+    console.log(Accounts)
+}
+
 async function make_jwt(UserName) {
     const [rows] = await connection.query(`SELECT ID, User_name FROM ${UserTable} WHERE User_name = ?`, [UserName]);
     console.log(rows[0])
@@ -41,6 +46,10 @@ async function add_admin(){
         console.log("admin not taken")
         await insert_user("Admin", "admin")
     }
+
+    const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName])
+
+    insert_card(User_id[0].ID, "Admin nr.2")
 }
 
 async function user_taken(User) { 

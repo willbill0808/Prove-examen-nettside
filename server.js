@@ -9,12 +9,12 @@ const cookieParser = require("cookie-parser");
 const jwt = require('jsonwebtoken');
 
 const userRouter = require("./routes/users")
-//const accountRouter = require("./routes/accounts")
+const accountRouter = require("./routes/accounts")
 
 app.set("view engine", "ejs")
 
 ///
-/// Middle ware
+/// Middle-ware
 ///
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/users", userRouter)
-//app.use("/accounts", accountRouter)
+app.use("/accounts", accountRouter)
 
 ////
 app.listen(8080, () => {
