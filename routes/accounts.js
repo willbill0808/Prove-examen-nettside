@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 
 router.post("/make", async (req, res) => {
 
-    insert_card(req.payload.ID)
+    insert_card(req.payload.ID, req.body.cardName)
     res.render("accounts", {user: req.payload, accounts: rows})
 })
 
