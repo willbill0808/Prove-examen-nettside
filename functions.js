@@ -47,7 +47,7 @@ async function add_admin(){
         await insert_user("Admin", "admin")
     }
 
-    const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName])
+    const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, ["Admin"])
 
     insert_card(User_id[0].ID, "Admin nr.2")
 }
