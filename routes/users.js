@@ -32,7 +32,7 @@ router.post("/log_in", async (req, res) => {
             sameSite: "strict",
         });
 
-        res.redirect("login")
+        res.redirect("log_in")
 
     } else if (auth_handle == 1) {
         res.render("log_in", { user: req.payload, error: "User does not exist"})
