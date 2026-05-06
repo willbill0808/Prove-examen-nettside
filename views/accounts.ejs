@@ -19,5 +19,28 @@
         </h3>
     </nav>
     
+    <h3>
+        <table cellpadding="6">
+            <tr>
+                <th>Account Name</th>
+                <th>Account Number</th>
+                <th>Balance</th>
+            </tr>
+
+            <% accounts.forEach(account=> { %>
+                <tr>
+                    <td>
+                        <%= account.Account_name %>
+                    </td>
+                    <td>
+                        <%= account.Account_number %>
+                    </td>
+                    <td>
+                        <%= account.Balance %>
+                    </td>
+                </tr>
+                <% }) %>
+        </table>
+    </h3>
 </body>
 </html>
