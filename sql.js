@@ -86,14 +86,13 @@ async function insert_user(UserName, plainPassword) {
 async function Authentication(User, plainPassword) {
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds);
     const [rows] = await connection.query(`SELECT User_name,Password FROM ${UserTable} WHERE User_name = ?;`, [User])
-    console.log(rows)
-    console.log(rows.Password)
+
     var taken = await user_taken(User)
     if (taken == false) { 
         return 1
     }
 
-    if(rows.Password == HashedPassword){
+    if(rows[1].Password == HashedPassword){
         return 0
     } 
     return 2

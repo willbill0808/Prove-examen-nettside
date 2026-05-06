@@ -28,7 +28,7 @@ router.post("/log_in", async (req, res) => {
     } else if (auth_handle == 1) {
         res.render("log_in", { user: req.payload, error: "User does not exist"})
         return 
-    } else if (auth_handle == 1) {
+    } else if (auth_handle == 2) {
         res.render("log_in", { user: req.payload, error: "There was an issue logging inn"})
         return 
     }
