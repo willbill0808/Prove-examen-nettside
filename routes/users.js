@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 
 const DB = require("../sql");
-const { user_taken, insert_user } = require("../sql");
+const { user_taken, insert_user, Authentication} = require("../sql");
 const { error } = require("console");
 
 
