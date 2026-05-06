@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const path = require('path');
 
-const DB = require("./sql");
+const DB = require("../sql");
 const { user_taken, insert_user } = require("../sql");
 
 
