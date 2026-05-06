@@ -105,5 +105,6 @@ add_admin()
 module.exports = {
     connection,
     user_taken,
-    insert_user
+    insert_user,
+    Authentication,
 } 
