@@ -151,4 +151,5 @@ module.exports = {
     Authentication,
     make_jwt,
     get_accounts,
+    insert_card,
 } 

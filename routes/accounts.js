@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router()
 
 const path = require('path');
-const { get_accounts} = require("../functions");
+const { get_accounts, insert_card} = require("../functions");
 
 //
 // Routes
@@ -18,6 +18,12 @@ router.get("/", async (req, res) => {
 
         res.render("accounts", {user: req.payload, accounts: rows})
     }
+})
+
+router.post("/make", async (req, res) => {
+
+    insert_card(req.payload.ID)
+    res.render("accounts", {user: req.payload, accounts: rows})
 })
 
 module.exports = router 
