@@ -55,7 +55,9 @@ connection.query(`CREATE TABLE IF NOT EXISTS ${AccountTable} (
 if (user_taken("Admin") == false) {
     console.log("admin not taken")
     insert_user("Admin", "admin")
-} else {console.log("admin taken")}
+} else {console.log("admin taken")
+    console.log(user_taken("Admin"))
+}
 
 //
 // Functions
