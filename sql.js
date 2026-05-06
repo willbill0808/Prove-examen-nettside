@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = process.env.SQL_User
 const PSWD = process.env.SQL_PSWD
@@ -25,39 +26,15 @@ connection.connect((err) => {
 });
 
 //
-// On start-up
-//
-
-connection.query(`CREATE TABLE IF NOT EXISTS ${UserTable} (
-    ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    User_name VARCHAR(50) NOT NULL UNIQUE,
-    Password VARCHAR(255) NOT NULL
-);`)
-
-connection.query(`CREATE TABLE IF NOT EXISTS ${AccountTable} (
-    ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    
-    User_id INT UNSIGNED NOT NULL,
-    Account_name VARCHAR(100) NOT NULL,
-    Account_number VARCHAR(19) NOT NULL UNIQUE,
-    Balance DECIMAL(12,2) DEFAULT 1000.00,
-    
-    Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    INDEX(User_id),
-    
-    CONSTRAINT fk_user_accounts
-    FOREIGN KEY (User_id)
-    REFERENCES ${UserTable}(ID)
-    ON DELETE CASCADE
-);`)
-
-
-
-
-//
 // Functions
 //
+
+async function make_jwt(UserName) {
+
+    const [rows] = await DB.query(`SELECT ID, User_name FROM ${UserTable} WHERE User_name = ?`, [UserName]);
+
+    return jwt.sign(rows[0], process.env.ACCESS_TOKEN_SECRET)
+}
 
 async function add_admin(){
     var taken = await user_taken("Admin")
@@ -99,8 +76,35 @@ async function Authentication(User, plainPassword) {
         return 2
     } 
     return 3
-    
 }
+
+//
+// On start-up
+//
+
+connection.query(`CREATE TABLE IF NOT EXISTS ${UserTable} (
+    ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    User_name VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL
+);`)
+
+connection.query(`CREATE TABLE IF NOT EXISTS ${AccountTable} (
+    ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    
+    User_id INT UNSIGNED NOT NULL,
+    Account_name VARCHAR(100) NOT NULL,
+    Account_number VARCHAR(19) NOT NULL UNIQUE,
+    Balance DECIMAL(12,2) DEFAULT 1000.00,
+    
+    Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    INDEX(User_id),
+    
+    CONSTRAINT fk_user_accounts
+    FOREIGN KEY (User_id)
+    REFERENCES ${UserTable}(ID)
+    ON DELETE CASCADE
+);`)
 
 add_admin()
 
@@ -109,4 +113,5 @@ module.exports = {
     user_taken,
     insert_user,
     Authentication,
+    make_jwt,
 } 

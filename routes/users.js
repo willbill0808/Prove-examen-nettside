@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 
 const DB = require("../sql");
-const { user_taken, insert_user, Authentication} = require("../sql");
+const { user_taken, insert_user, Authentication, make_jwt} = require("../sql");
 const { error } = require("console");
 
 
@@ -24,7 +24,16 @@ router.post("/log_in", async (req, res) => {
     auth_handle = await Authentication(userName, userPass)
 
     if (auth_handle == 0) {
-        res.render("log_in", { user: req.payload, error: "Logged inn with no issues"})
+
+        const cookie = await make_jwt(req.body.userName)
+        res.cookie("Token", cookie, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+        });
+
+        res.redirect("login")
+
     } else if (auth_handle == 1) {
         res.render("log_in", { user: req.payload, error: "User does not exist"})
         return 
