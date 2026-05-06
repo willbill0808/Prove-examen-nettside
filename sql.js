@@ -7,7 +7,7 @@ const DataBase = process.env.SQL_DataBase
 const UserTable = process.env.SQL_UserTable
 const AccountTable = process.env.SQL_AccountTable
 
-const saltRounds = process.env.Hash_SaltRounds
+const saltRounds = Number(process.env.Hash_SaltRounds)
 
 console.log(saltRounds)
 
