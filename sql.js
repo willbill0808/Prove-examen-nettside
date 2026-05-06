@@ -66,9 +66,8 @@ async function add_admin(){
     if (taken == false) {
         console.log("admin not taken")
         await insert_user("Admin", "admin")
-    } else {console.log("admin taken")
-        console.log(taken)
-}}
+    }
+}
 
 async function user_taken(User) { 
     const [rows] = await connection.query(`SELECT User_name FROM ${UserTable} WHERE User_name = ?;`, [User])
