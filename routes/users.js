@@ -3,6 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const path = require('path');
 
+const DB = require("./sql");
+const { user_taken, insert_user } = require("../sql");
+
 
 //
 // Routes
@@ -22,13 +25,19 @@ router.post("/registrer", async (req, res) => {
     console.log(userPass)
     console.log(userPass2)
 
+    if (user_taken(userName)) {
+        res.render("registrer", { user: req.payload, error: "Username already in use" })
+    }
 
     if (userPass != userPass2) {
         console.log("passwords dont match")
         res.render("registrer", { user: req.payload, error: "Passwords don't match" })
         return 0
     }
-    console.log("passwords match")
+    
+    insert_user(userName, userPass)
+
+
 })
 
 module.exports = router 
