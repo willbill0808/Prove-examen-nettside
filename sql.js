@@ -92,7 +92,7 @@ async function Authentication(User, plainPassword) {
         return 1
     }
 
-    if(rows.password == HashedPassword){
+    if(rows.Password == HashedPassword){
         return 0
     } 
     
