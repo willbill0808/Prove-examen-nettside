@@ -57,6 +57,8 @@ async function insert_user(UserName, plainPassword) {
     const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password) VALUES (?, ?)`, [UserName, HashedPassword])
 
     const User_id = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName])
+
+    console.log(User_id)
     insert_card(User_id[0].ID, "Default-card")
     return
 }
