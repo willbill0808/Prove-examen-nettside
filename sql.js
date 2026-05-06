@@ -9,6 +9,8 @@ const AccountTable = process.env.SQL_AccountTable
 
 const saltRounds = process.env.Hash_SaltRounds
 
+console.log(saltRounds)
+
 var connection = mysql.createConnection({
   host: 'localhost',
   user: User,
