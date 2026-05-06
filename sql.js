@@ -62,10 +62,10 @@ connection.query(`CREATE TABLE IF NOT EXISTS ${AccountTable} (
 //
 
 async function add_admin(){
-    taken = await user_taken("Admin")
+    var taken = await user_taken("Admin")
     if (taken == false) {
         console.log("admin not taken")
-        insert_user("Admin", "admin")
+        await insert_user("Admin", "admin")
     } else {console.log("admin taken")
         console.log(taken)
 }}
