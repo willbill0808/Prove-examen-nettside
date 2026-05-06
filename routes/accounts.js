@@ -23,6 +23,8 @@ router.get("/", async (req, res) => {
 router.post("/make", async (req, res) => {
 
     insert_card(req.payload.ID, req.body.cardName)
+
+    const rows = await get_accounts(req.payload.ID)
     res.render("accounts", {user: req.payload, accounts: rows})
 })
 
