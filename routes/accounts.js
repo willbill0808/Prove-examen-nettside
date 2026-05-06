@@ -3,6 +3,7 @@ const router = express.Router()
 
 const path = require('path');
 const { get_accounts, insert_card} = require("../functions");
+const { error } = require("console");
 
 //
 // Routes
@@ -22,10 +23,16 @@ router.get("/", async (req, res) => {
 
 router.post("/make", async (req, res) => {
 
-    insert_card(req.payload.ID, req.body.cardName)
+    const result = await insert_card(req.payload.ID, req.body.cardName)
 
-    const rows = await get_accounts(req.payload.ID)
-    res.render("accounts", {user: req.payload, accounts: rows})
+    if (result == 0){
+
+        const rows = await get_accounts(req.payload.ID)
+        res.render("accounts", {user: req.payload, accounts: rows, error: "Card created successfully"})
+    } else if (result == 1) {
+        const rows = await get_accounts(req.payload.ID)
+        res.render("accounts", {user: req.payload, accounts: rows, error: "You already have a card with that name"})
+    }
 })
 
 module.exports = router 
