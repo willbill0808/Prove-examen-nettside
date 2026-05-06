@@ -51,7 +51,7 @@ connection.query(`CREATE TABLE IF NOT EXISTS ${AccountTable} (
     REFERENCES ${UserTable}(ID)
     ON DELETE CASCADE
 );`)
-taken = user_taken("Admin")
+taken = await user_taken("Admin")
 if (taken == false) {
     console.log("admin not taken")
     insert_user("Admin", "admin")
