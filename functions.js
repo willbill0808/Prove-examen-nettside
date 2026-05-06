@@ -74,7 +74,8 @@ async function insert_user(UserName, plainPassword) {
 
 async function insert_card(User_id, Account_name) {
 
-    const [card_exists_alr] = await connection.query(`SELECT Account_name FROM ${AccountTable} WHERE Account_name = ?;`, [Account_name])
+    const [card_exists_alr] = await connection.query(`SELECT Account_name FROM ${AccountTable} WHERE User_id = ?;`, [User_id])
+    console.log(card_exists_alr)
     
     if (card_exists_alr.length === 0 ){
         return 1
