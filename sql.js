@@ -92,9 +92,8 @@ async function Authentication(User, plainPassword) {
         return 1
     }
 
-    console.log(rows[0])
-    console.log(HashedPassword)
-    if(rows[0].Password == HashedPassword){
+    comp = await bcrypt.compare(plainPassword, rows[0].Password)
+    if(comp){
         return 0
     } else if(rows[0].Password != HashedPassword){
         return 2
