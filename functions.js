@@ -60,7 +60,7 @@ async function insert_user(UserName, plainPassword) {
     return
 }
 
-async function insert_account(User_id, Account_name) {
+async function insert_card(User_id, Account_name) {
 
     function fourDigits() {
         return Math.floor(1000 + Math.random() * 9000);
