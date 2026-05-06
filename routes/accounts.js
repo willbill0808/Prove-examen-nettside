@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
     else {
         const rows = await get_accounts(req.payload.ID)
 
-        res.render("accounts", {user: req.payload, accounts: rows[0]})
+        res.render("accounts", {user: req.payload, accounts: rows})
     }
 })
 
