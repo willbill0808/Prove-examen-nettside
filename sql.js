@@ -30,9 +30,8 @@ connection.connect((err) => {
 //
 
 async function make_jwt(UserName) {
-
     const [rows] = await connection.query(`SELECT ID, User_name FROM ${UserTable} WHERE User_name = ?`, [UserName]);
-
+    console.log(rows[0])
     return jwt.sign(rows[0], process.env.ACCESS_TOKEN_SECRET)
 }
 

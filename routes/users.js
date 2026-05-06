@@ -25,7 +25,7 @@ router.post("/log_in", async (req, res) => {
 
     if (auth_handle == 0) {
 
-        const cookie = await make_jwt(req.body.userName)
+        const cookie = await make_jwt(userName)
         res.cookie("Token", cookie, {
             httpOnly: true,
             secure: true,
