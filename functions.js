@@ -56,11 +56,14 @@ async function insert_user(UserName, plainPassword) {
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds);
     const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password) VALUES (?, ?)`, [UserName, HashedPassword])
 
-    insert_card(await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName]), "Default-card")
+    const User_id = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName])
+    insert_card(User_id[0].ID, "Default-card")
     return
 }
 
 async function insert_card(User_id, Account_name) {
+
+    console.log(user|)
 
     function fourDigits() {
         return Math.floor(1000 + Math.random() * 9000);
