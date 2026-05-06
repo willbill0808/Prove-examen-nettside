@@ -148,4 +148,5 @@ module.exports = {
     insert_user,
     Authentication,
     make_jwt,
+    get_accounts,
 } 
