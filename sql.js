@@ -61,7 +61,7 @@ if (user_taken("Admin") == false) {
 //
 
 async function user_taken(User) { 
-    const [rows] = await connection.query(`SELECT User_name FROM ${UserTable} WHERE User_name = ?;`, [UserName])
+    const [rows] = await connection.query(`SELECT User_name FROM ${UserTable} WHERE User_name = ?;`, [User])
 
     if (rows.length === 0)
         return false
