@@ -30,7 +30,7 @@ connection.connect((err) => {
 //
 
 async function get_accounts(ID) {
-    const [Accounts] = connection.query(`SELECT Account_name, Account_number, Balance, Created_at`)
+    const [Accounts] = connection.query(`SELECT Account_name, Account_number, Balance, Created_at FROM Accounts WHERE User_id = ?;`, (ID))
     console.log(Accounts)
 }
 
