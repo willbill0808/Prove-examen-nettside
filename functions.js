@@ -103,6 +103,7 @@ async function Authentication(User, plainPassword) {
         return 1
     }
 
+    const [rows] = await connection.query(`SELECT * FROM ${UserTable} WHERE User_name = ?`, [User])
     comp = await bcrypt.compare(plainPassword, rows[0].Password)
     if(comp){
         return 0
