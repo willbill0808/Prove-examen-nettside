@@ -92,7 +92,8 @@ async function Authentication(User, plainPassword) {
         return 1
     }
 
-    if(rows[1].Password == HashedPassword){
+    console.log(rows[0])
+    if(rows[0].Password == HashedPassword){
         return 0
     } 
     return 2
