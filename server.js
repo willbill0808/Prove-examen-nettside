@@ -9,15 +9,25 @@ const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/users")
 //const accountRouter = require("./routes/accounts")
 
+app.set("view engine", "ejs")
+
 ///
-/// app.use/set
+/// Middle ware
 ///
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
-app.set("view engine", "ejs")
+app.use((req, res, next) => { // Et Middle-ware som henter ut jwt om det er en, også parser den i req(request)
+    if (req.cookies.Token) {
+        const payload = jwt.verify(req.cookies.Token, process.env.ACCESS_TOKEN_SECRET)
+
+        req.payload = payload
+    }
+    
+    next()
+})
 
 ///
 /// routes

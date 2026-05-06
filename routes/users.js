@@ -28,7 +28,7 @@ router.post("/log_in", async (req, res) => {
         const cookie = await make_jwt(userName)
         res.cookie("Token", cookie, {
             httpOnly: true,
-            secure: false,
+            secure: false, 
             sameSite: "strict",
         });
 
