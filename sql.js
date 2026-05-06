@@ -9,8 +9,6 @@ const AccountTable = process.env.SQL_AccountTable
 
 const saltRounds = Number(process.env.Hash_SaltRounds)
 
-console.log(saltRounds)
-
 var connection = mysql.createConnection({
   host: 'localhost',
   user: User,
@@ -83,6 +81,23 @@ async function insert_user(UserName, plainPassword) {
     const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password) VALUES (?, ?)`, [UserName, HashedPassword])
     console.log(result)
     return
+}
+
+async function Authentication(User, plainPassword) {
+    HashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+    const [rows] = await connection.query(`SELECT User_name,Password FROM ${UserTable} WHERE User_name = ?;`, [User])
+
+    var taken = await user_taken(User)
+    if (taken == false) { 
+        return 1
+    }
+
+    if(rows.password == HashedPassword){
+        return 0
+    } 
+    
+    
+    
 }
 
 add_admin()
