@@ -72,6 +72,7 @@ async function user_taken(User) {
 async function insert_user(UserName, plainPassword) {
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds);
     const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password) VALUES (?, ?)`, [UserName, HashedPassword])
+    console.log(result)
     return
 }
 
