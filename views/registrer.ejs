@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <button onclick="window.location.href='/'" class="button button3">Home</button>
+        <button onclick="window.location.href='/users/login'" class="button button3">Login</button>
+        <button onclick="window.location.href='/users/registrer'" class="button button3">Register</button>
+        <button onclick="window.location.href='/accounts'" class="button button3">Accounts</button>
+        <button onclick="window.location.href='/accounts/create'" class="button button3">Create Account</button>
+        <button onclick="window.location.href='/accounts/money'" class="button button3">Transfer Money</button>
+
+        <h3>
+            <%= locals.user?.User_name || "Not logged in" %>
+        </h3>
+    </nav>
+
+    <form action="/users/registrer" method="post">
+        <div id="form1">
+            <h3>What should your username be</h3>
+            <input type="text" name="userName" id="userName" required>
+        </div>
+
+        <div id="form2">
+            <h3>What should your Password be</h3>
+            <input type="password" name="userPass" id="userPass" required>
+        </div>
+
+        <div id="form3">
+            <h3>Re-enter password</h3>
+            <input type="password" name="userPass2" id="userPass2" required>
+            <h4 class="error"> <%= locals.error || null %> </h3>
+        </div>
+
+        <input type="submit" value="Submit" class="button, button1" />
+    </form>
+</body>
+</html>
