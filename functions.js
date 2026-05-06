@@ -45,11 +45,11 @@ async function add_admin(){
     if (taken == false) {
         console.log("admin not taken")
         await insert_user("Admin", "admin")
+    
+        const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, ["Admin"])
+
+        insert_card(User_id[0].ID, "Admin nr.2")
     }
-
-    const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, ["Admin"])
-
-    insert_card(User_id[0].ID, "Admin nr.2")
 }
 
 async function user_taken(User) { 
