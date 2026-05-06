@@ -11,11 +11,18 @@ const { user_taken, insert_user } = require("../sql");
 // Routes
 //
 
-router.get("/registrer", (req, res) => {
-    res.render("registrer", { user: req.payload })
+router.get("/log_in", (req, res) => {
+    res.render("log_in", { user: req.payload })
 })
 
-router.post("/registrer", async (req, res) => {
+
+
+
+router.get("/sign_in", (req, res) => {
+    res.render("sign_in", { user: req.payload })
+})
+
+router.post("/sign_in", async (req, res) => {
     console.log(req.body)
     userName = req.body.userName
     userPass = req.body.userPass
@@ -24,17 +31,17 @@ router.post("/registrer", async (req, res) => {
     taken = await user_taken(userName)
 
     if (taken) {
-        res.render("registrer", { user: req.payload, error: "Username already in use" })
+        res.render("sign_in", { user: req.payload, error: "Username already in use" })
         return 0
     }
 
     if (userPass != userPass2) {
-        res.render("registrer", { user: req.payload, error: "Passwords don't match" })
+        res.render("sign_in", { user: req.payload, error: "Passwords don't match" })
         return 0
     }
     
     insert_user(userName, userPass)
-    res.render("registrer", { user: req.payload, error: "User Created successfully" })
+    res.render("sign_in", { user: req.payload, error: "User Created successfully" })
 })
 
 module.exports = router 
