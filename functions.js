@@ -55,14 +55,38 @@ async function user_taken(User) {
 async function insert_user(UserName, plainPassword) {
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds);
     const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password) VALUES (?, ?)`, [UserName, HashedPassword])
-    console.log(result)
+
+    insert_card(await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName]), "Default-card")
+    return
+}
+
+async function insert_account(User_id, Account_name) {
+
+    function fourDigits() {
+        return Math.floor(1000 + Math.random() * 9000);
+    }
+
+    let card_number;
+    let exists = true;
+
+    while (exists) {
+        card_number = `${fourDigits()}-${fourDigits()}-${fourDigits()}-${fourDigits()}`;
+
+        const [rows] = await connection.query(
+            `SELECT 1 FROM ${AccountTable} WHERE Account_number = ? LIMIT 1`,
+            [card_number]
+        );
+
+        exists = rows.length > 0;
+    }
+
+    await connection.query(`INSERT INTO ${AccountTable} (User_ID, Account_name, Account_number) VALUES (?, ?, ?)`, [User_id, Account_name, card_number]);
+
     return
 }
 
 async function Authentication(User, plainPassword) {
-    HashedPassword = await bcrypt.hash(plainPassword, saltRounds);
-    const [rows] = await connection.query(`SELECT User_name,Password FROM ${UserTable} WHERE User_name = ?;`, [User])
-
+    
     var taken = await user_taken(User)
     if (taken == false) { 
         return 1
