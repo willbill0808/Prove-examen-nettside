@@ -20,24 +20,21 @@ router.post("/registrer", async (req, res) => {
     userName = req.body.userName
     userPass = req.body.userPass
     userPass2 = req.body.userPass2
-    
-    console.log(userName)
-    console.log(userPass)
-    console.log(userPass2)
 
-    if (user_taken(userName)) {
+    taken = await user_taken(userName)
+
+    if (taken) {
         res.render("registrer", { user: req.payload, error: "Username already in use" })
+        return 0
     }
 
     if (userPass != userPass2) {
-        console.log("passwords dont match")
         res.render("registrer", { user: req.payload, error: "Passwords don't match" })
         return 0
     }
     
     insert_user(userName, userPass)
-
-
+    res.render("registrer", { user: req.payload, error: "User Created successfully" })
 })
 
 module.exports = router 
