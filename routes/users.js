@@ -17,7 +17,7 @@ router.get("/log_in", (req, res) => {
 })
 
 
-router.get("/log_in", (req, res) => {
+router.post("/log_in", async (req, res) => {
     userName = req.body.userName
     userPass = req.body.userPass
 
