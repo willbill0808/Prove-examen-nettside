@@ -35,4 +35,16 @@ router.post("/make", async (req, res) => {
     }
 })
 
+router.get("/transfer", async (req, res) => {
+    if (!req.payload) {
+        res.render("index", {user: req.payload, error: "You need to be loged inn for that page"}
+    )
+    }
+    else {
+        const rows = await get_accounts(req.payload.ID)
+
+        res.render("transfer", {user: req.payload, accounts: rows})
+    }
+})
+
 module.exports = router 
