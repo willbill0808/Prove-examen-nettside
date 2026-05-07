@@ -58,8 +58,9 @@ async function transfer(cardHolder, card1, card2, amount) {
 
             return 
         }
-        return 2
+        
     }
+    return 2
 }
 
 async function get_accounts(ID) {
@@ -106,7 +107,6 @@ async function insert_card(User_id, card_name) {
 
     const cards = await connection.query(`SELECT Account_name FROM ${AccountTable} WHERE User_id = ?;`, [User_id])
 
-    
     for (let i = 0; i < cards[0].length ; i++){
         if (cards[0][i].Account_name === card_name){ return 1}
     }
