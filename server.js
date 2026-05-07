@@ -46,5 +46,4 @@ app.use("/accounts", accountRouter) // sier at den også skal bruke routes fra /
 app.listen(8080, async () => {
     console.log("\nServer is up and running! On http://localhost:8080")
     await test_connection() // kjører for å se om du har tilgang til mariaDB datbasen
-    console.log("test")
 })
