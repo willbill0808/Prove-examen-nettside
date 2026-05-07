@@ -7,17 +7,7 @@
     <link rel="stylesheet" href="/css/<%= locals.user ? 'logged_in.css' : 'logged_out.css' %>">
 </head>
 <body>
-    <nav>
-        <button onclick="window.location.href='/'" class="button button3">Home</button>
-        <button onclick="window.location.href='/users/log_in'" class="button button3">Log in</button>
-        <button onclick="window.location.href='/users/sign_in'" class="button button3">Sign in</button>
-        <button onclick="window.location.href='/accounts'" class="button button3">Card-Accounts</button>
-        <button onclick="window.location.href='/accounts/money'" class="button button3">Transfer Money</button>
-
-        <h3 id="User">
-            <%= locals.user?.User_name || "Not logged in" %>
-        </h3>
-    </nav>
+    <%- include("partials/nav") %>
 
     <h1> dette er index</h1>
     <h2 class="error"> <%= locals.error || null %> </h2>
