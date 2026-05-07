@@ -32,35 +32,18 @@ async function transfer(cardHolder, card1, card2, amount) {
 
     if (amount <= 0){return 1} // sjekker om amount er over 0
 
-    const Accounts = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable};`)
-    console.log(Accounts)
-    console.log(card2)
-    
-    for (let i = 0; i < Accounts[0].length ; i++){ //Sjekker om brukeren som prøver å overføre eier det kortnummeret
-        if (Accounts[0][i].User_id === cardHolder){ 
-            if (parseFloat(Accounts[0][i].Balance) < amount){ // returner 3 om kort 1 ikke har nok penger
-                return 3
-            }
+    const Account1 = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card1])
+    const Account2 = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card2])
 
-            for (let i = 0; i < Accounts[0].length ; i++){ // Sjekker om kort 2 finnes
-                console.log(Accounts[0][i].Account_number)
-                console.log(card2)
-                console.log(Accounts[0][i].Account_number === card2)
-                if (Accounts[0][i].Account_number === card2){
-                    
+    if (Account1.length === 0){return 2}
+    if (Account1.User_id != cardHolder){return 2}
+    if (Account1.Balance <= 0){return 3}
+    if (Account2.length === 0){return 4}
 
-                    const result1 = await DB.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE card_number = ?`, [amount, card1])
-                    const result2 = await DB.query(`UPDATE ${AccountTable} SET Balance = Balance + ? WHERE card_number = ?`, [amount, card2])
+    const result1 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE card_number = ?`, [amount, card1])
+    const result2 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance + ? WHERE card_number = ?`, [amount, card2])
 
-                    return 0
-                } else {return 4}
-            }
-
-            return 
-        }
-        
-    }
-    return 2
+    return 0
 }
 
 async function get_accounts(ID) {
