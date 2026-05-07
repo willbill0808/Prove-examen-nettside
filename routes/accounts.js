@@ -28,7 +28,7 @@ router.post("/make", async (req, res) => {
     if (result == 0){
 
         const rows = await get_accounts(req.payload.ID)
-        res.render("accounts", {user: req.payload, accounts: rows, error: "Card created successfully"})
+        res.render("accounts", {user: req.payload, accounts: rows, text: "Card created successfully"})
     } else if (result == 1) {
         const rows = await get_accounts(req.payload.ID)
         res.render("accounts", {user: req.payload, accounts: rows, error: "You already have a card with that name"})

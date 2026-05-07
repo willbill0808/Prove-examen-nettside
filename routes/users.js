@@ -66,7 +66,7 @@ router.post("/sign_in", async (req, res) => {
     }
     
     insert_user(userName, userPass)
-    res.render("sign_in", { user: req.payload, error: "User Created successfully" })
+    res.render("sign_in", { user: req.payload, text: "User Created successfully" })
 })
 
 module.exports = router 
