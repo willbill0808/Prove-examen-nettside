@@ -42,6 +42,9 @@ async function transfer(cardHolder, card1, card2, amount) {
             }
 
             for (let i = 0; i < Accounts[0].length ; i++){ // Sjekker om kort 2 finnes
+                console.log(Accounts[0][i].Account_number)
+                console.log(card2)
+                console.log(Accounts[0][i].Account_number === card2)
                 if (Accounts[0][i].Account_number === card2){
                     
 
