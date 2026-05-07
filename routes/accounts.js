@@ -70,7 +70,7 @@ router.post("/transfer", async (req, res) => {
             res.render("transfer", {user: req.payload, accounts: rows, error: "Transfer amount must be above 0"})
         } else if (result === 2){
             const rows = await get_accounts(req.payload.ID)
-            res.render("transfer", {user: req.payload, accounts: rows, error: "You don`t own a card with tha number"})
+            res.render("transfer", {user: req.payload, accounts: rows, error: "You don`t own a card with that number"})
         } else if (result === 3){
             const rows = await get_accounts(req.payload.ID)
             res.render("transfer", {user: req.payload, accounts: rows, error: "You don`t have enough on that card to transfer"})
