@@ -48,6 +48,24 @@ router.get("/transfer", async (req, res) => {
 
         const result = await transfer(cardHolder, cardId, cardId2, amount)
 
+        const rows = await get_accounts(req.payload.ID)
+        res.render("accounts", {user: req.payload, accounts: rows})
+    }
+})
+
+router.post("/transfer", async (req, res) => {
+    if (!req.payload) {
+        res.render("index", {user: req.payload, error: "You need to be loged inn for that page"}
+    )
+    }
+    else {
+        const cardHolder = req.payload.ID
+        const cardId = req.body.cardNumber
+        const cardId2 = req.body.cardNumber2
+        const amount =  req.body.amount
+
+        const result = await transfer(cardHolder, cardId, cardId2, amount)
+
         if (result == 0){
             const rows = await get_accounts(req.payload.ID)
             res.render("accounts", {user: req.payload, accounts: rows, text: "Money transfered successfully"})
@@ -67,5 +85,6 @@ router.get("/transfer", async (req, res) => {
 
     }
 })
+
 
 module.exports = router 
