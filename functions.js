@@ -83,7 +83,7 @@ async function insert_card(User_id, card_name) {
         console.log(cards[0][i].Account_name)
         console.log(card_name)
         console.log(i)
-        if (cards[i].Account_name === card_name){ return 1}
+        if (cards[0][i].Account_name === card_name){ return 1}
     }
 
 
