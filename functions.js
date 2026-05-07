@@ -77,7 +77,7 @@ async function insert_card(User_id, Account_name) {
     const cards = await connection.query(`SELECT Account_name FROM ${AccountTable} WHERE User_id = ?;`, [User_id])
 
     console.log("cards:")
-    console.log(cards)
+    console.log(cards[0])
     
     /* if (){
         return 1
