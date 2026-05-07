@@ -10,6 +10,11 @@ const { error } = require("console");
 // Routes
 //
 
+router.get("/log_out", (req, res) => {
+    res.clearCookie("Token");
+    res.render("index", { user: req.payload })
+})
+
 router.get("/log_in", (req, res) => {
     res.render("log_in", { user: req.payload })
 })
