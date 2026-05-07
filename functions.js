@@ -31,20 +31,17 @@ connection.connect((err) => {
 
 async function get_accounts(ID) {
     const [Accounts] = await connection.query(`SELECT Account_name, Account_number, Balance, Created_at FROM ${AccountTable} WHERE User_id = ?;`, [ID])
-    console.log(Accounts)
     return Accounts
 }
 
 async function make_jwt(UserName) {
     const [rows] = await connection.query(`SELECT ID, User_name FROM ${UserTable} WHERE User_name = ?`, [UserName]);
-    console.log(rows[0])
     return jwt.sign(rows[0], process.env.ACCESS_TOKEN_SECRET)
 }
 
 async function add_admin(){
     var taken = await user_taken("Admin")
     if (taken == false) {
-        console.log("admin not taken")
         await insert_user("Admin", "admin")
     
         const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, ["Admin"])
@@ -76,13 +73,8 @@ async function insert_card(User_id, card_name) {
 
     const cards = await connection.query(`SELECT Account_name FROM ${AccountTable} WHERE User_id = ?;`, [User_id])
 
-    console.log("cards:")
-    console.log(cards[0])
     
     for (let i = 0; i < cards[0].length ; i++){
-        console.log(cards[0][i].Account_name)
-        console.log(card_name)
-        console.log(i)
         if (cards[0][i].Account_name === card_name){ return 1}
     }
 
