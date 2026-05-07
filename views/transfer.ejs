@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer</title>
+</head>
+<body>
+    <%- include("partials/nav") %>
+
+    <h1>Transfer page</h2>
+
+    <form action="/users/transfer" method="post">
+        <div id="form1">
+            <h3>Which card should the money be taken from</h3>
+            <input type="text" name="cardNumber" id="cardNumber1" required>
+        </div>
+
+        <div id="form2">
+            <h3>Which card should recive the money</h3>
+            <input type="text" name="cardNumber" id="cardNumber2" required>
+        </div>
+
+        <div id="form3">
+            <h3>How much should be transfered</h3>
+            <input type="password" name="amount" id="amount" required>
+            <h4 class="error"> <%= locals.error || null %> </h3>
+        </div>
+
+        <input type="submit" value="Submit" class="button, button1" />
+    </form>
+</body>
+</html>
