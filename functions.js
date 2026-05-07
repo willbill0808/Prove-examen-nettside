@@ -80,6 +80,9 @@ async function insert_card(User_id, Account_name) {
     console.log(cards[0])
     
     for (let i = 0; i < cards[0].length ; i++){
+        console.log(cards[i].Account_name)
+        console.log(Account_name)
+        console.log(i)
         if (cards[i].Account_name === Account_name){ return 1}
     }
 
