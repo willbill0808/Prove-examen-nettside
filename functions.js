@@ -30,13 +30,11 @@ async function test_connection(){
 // Functions
 //
 async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å overføre penger
-    console.log(cardHolder, card1, card2, amount)
 
     if (amount <= 0) { return 1 } // sjekker om amount er over 0
 
     const [[Account1]] = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card1])
     const [[Account2]] = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card2])
-    console.log(Account1)
 
     if (Account1.length === 0) { return 2 } // om ingen ting er i Account1 så finnes ikke den kort-kontoen
     if (Account1.User_id != cardHolder) { return 2 } // om User_id og cardHolder ikke er like så prøver noen som ikke er den faktiske eieren å overføre
