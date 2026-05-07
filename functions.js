@@ -44,7 +44,7 @@ async function transfer(cardHolder, card1, card2, amount) {
 
     if (Account1.length === 0){return 2}
     if (Account1.User_id != cardHolder){return 2}
-    if (Account1.Balance <= 0){return 3}
+    if (Account1.Balance <= amount){return 3}
     if (Account2.length === 0){return 4}
 
     const result1 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE Account_number = ?`, [amount, card1])
