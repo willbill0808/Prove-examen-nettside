@@ -21,13 +21,18 @@ app.use(bodyParser.urlencoded({ extended: false })) // Tolker data fra req.body,
 app.use(express.static(path.join(__dirname, 'public'))); // Serverer "Static" filer fra public/ (css og eventuelt bilder eller .js)
 app.use(cookieParser()); // Leser req.cookie, som gjør det mulig å lese jwt info
 
+
 app.use((req, res, next) => { // Et Middle-ware som henter ut jwt info om det er i browseren, også parser den i req.payload
+    console.log("request hit:", req.method, req.url) // logger hvem som kobler til
     if (req.cookies.Token) {
-        const payload = jwt.verify(req.cookies.Token, process.env.ACCESS_TOKEN_SECRET)
-
-        req.payload = payload
+        try {
+            const payload = jwt.verify(req.cookies.Token, process.env.ACCESS_TOKEN_SECRET)
+            req.payload = payload
+        } catch (err) {
+            console.error("Invalid token:", err.message)
+            res.clearCookie("Token") 
+        }
     }
-
     next() // sier at neste middle ware skal kjøre
 })
 

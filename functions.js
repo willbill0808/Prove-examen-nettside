@@ -18,27 +18,29 @@ var connection = mysql.createConnection({
 }).promise(); // all info om hvordan serveren skal logge seg på og snakke med mariaDB
 
 async function test_connection(){
-    connection.connect((err) => {
-        if (err) {
-            console.error("problem Connecting to DataBase: ", err.message)
-            return;
-        }
-        console.log("Connected to DataBase")
-    }); // kjører for å se om du faktisk får koble opp til databasen, gir deg en feil melding så snart serveren starter om noe er galt
-}
+    try {
+        await connection.query("SELECT 1");
+        console.log("Connected to DataBase");
+    } catch (err) {
+        console.error("Problem connecting to DataBase:", err.message);
+    }
+} // kjører for å se om du faktisk får koble opp til databasen, gir deg en feil melding så snart serveren starter om noe er galt
+
 //
 // Functions
 //
 async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å overføre penger
+    console.log(cardHolder, card1, card2, amount)
 
     if (amount <= 0) { return 1 } // sjekker om amount er over 0
 
     const [[Account1]] = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card1])
     const [[Account2]] = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card2])
+    console.log(Account1)
 
     if (Account1.length === 0) { return 2 } // om ingen ting er i Account1 så finnes ikke den kort-kontoen
     if (Account1.User_id != cardHolder) { return 2 } // om User_id og cardHolder ikke er like så prøver noen som ikke er den faktiske eieren å overføre
-    if (Account1.Balance < amount) { return 3 } // mengden på kortet er mindre enn det som skal bli overført
+    if (parseFloat(Account1.Balance) < amount) { return 3 } // mengden på kortet er mindre enn det som skal bli overført
     if (Account2.length === 0) { return 4 } // kortet som har ment til å mota pengene finnes ikke
 
     const result1 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE Account_number = ?`, [amount, card1])
