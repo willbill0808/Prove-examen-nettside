@@ -28,6 +28,34 @@ connection.connect((err) => {
 //
 // Functions
 //
+async function transfer(cardHolder, card1, card2, amount) {
+
+    if (amount <= 0){return 1} // sjekker om amount er over 0
+
+    const Accounts = await connection.query(`SELECT Accounts_number, Balance, User_id FROM ${AccountTable};`)
+    
+    for (let i = 0; i < Accounts[0].length ; i++){ //Sjekker om brukeren som prøver å overføre eier det kortnummeret
+        if (Accounts[0][i].User_id === cardHolder){ 
+
+            if (Accounts[0][i].Balance < amount){ // returner 3 om kort 1 ikke har nok penger
+                return 3
+            }
+
+            for (let i = 0; i < Accounts[0].length ; i++){ // Sjekker om kort 2 finnes
+                if (Accounts[0][i].Account_number === card2){
+
+                    const result1 = await DB.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE card_number = ?`, [amount, card1])
+                    const result2 = await DB.query(`UPDATE ${AccountTable} SET Balance = Balance + ? WHERE card_number = ?`, [amount, card2])
+
+                    return 0
+                } else {return 4}
+            }
+
+            return 
+        }
+        return 2
+    }
+}
 
 async function get_accounts(ID) {
     const [Accounts] = await connection.query(`SELECT Account_name, Account_number, Balance, Created_at FROM ${AccountTable} WHERE User_id = ?;`, [ID])
@@ -157,4 +185,5 @@ module.exports = {
     make_jwt,
     get_accounts,
     insert_card,
+    transfer,
 } 
