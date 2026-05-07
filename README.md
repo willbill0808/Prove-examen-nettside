@@ -44,11 +44,11 @@ Trenger: cardHolder, card1, card2, amount; Overfører penger fra card1 til card2
     * Få en mail hver gang man får penger inn på konto
     * 2FA
 
-* transaction history
-    * route side med all bruker historik
-    * "dette var ikke meg" funksjon for å undo en tidlige overføring
-    * sorter etter kort
+* Transaction history
+    * Route side med all bruker historik
+    * "Dette var ikke meg" funksjon for å undo en tidlige overføring
+    * Sorter etter kort
 
-* enkle bruker støtte endringer
-    * slett konto knapp
-    * enkle settings (light og dark mode)
+* Enkle bruker støtte endringer
+    * Slett konto knapp
+    * Enkle settings (light og dark mode)
