@@ -74,12 +74,14 @@ async function insert_user(UserName, plainPassword) {
 
 async function insert_card(User_id, Account_name) {
 
-    const card_exists_alr = await connection.query(`SELECT Account_name FROM ${AccountTable} WHERE User_id = ?;`, [User_id])
-    console.log(card_exists_alr)
+    const cards = await connection.query(`SELECT Account_name FROM ${AccountTable} WHERE User_id = ?;`, [User_id])
+
+    console.log("cards:")
+    console.log(cards)
     
-    if (card_exists_alr.length === 0 ){
+    /* if (){
         return 1
-    }
+    } */
 
     function fourDigits() {
         return Math.floor(1000 + Math.random() * 9000);
