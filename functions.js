@@ -79,9 +79,10 @@ async function insert_card(User_id, Account_name) {
     console.log("cards:")
     console.log(cards[0])
     
-    /* if (){
-        return 1
-    } */
+    for (let i = 0; i < cards[0].length ; i++){
+        if (cards[0][i] == Account_name){ return 1}
+    }
+
 
     function fourDigits() {
         return Math.floor(1000 + Math.random() * 9000);
