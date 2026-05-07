@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home — NordBank</title>
     <link rel="stylesheet" href="/css/<%= locals.user ? 'logged_in.css' : 'logged_out.css' %>">
 </head>
 <body>
     <%- include("partials/nav") %>
 
-    <h1> dette er index</h1>
+    <h1>Welcome<% if (locals.user) { %>, <%= locals.user.User_name %><% } %></h1>
     <h2 class="error"> <%= locals.error || null %> </h2>
 </body>
 </html>

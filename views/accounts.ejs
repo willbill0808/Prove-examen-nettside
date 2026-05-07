@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accounts</title>
+    <title>Accounts — NordBank</title>
     <link rel="stylesheet" href="/css/<%= locals.user ? 'logged_in.css' : 'logged_out.css' %>">
 </head>
 <body>
     <%- include("partials/nav") %>
-    
+
+    <h1>Your Accounts</h1>
+
     <div class="Table" id="account_table">
         <table cellpadding="6">
             <tr>
@@ -17,28 +19,22 @@
                 <th>Balance</th>
             </tr>
 
-            <% accounts.forEach(account=> { %>
+            <% accounts.forEach(account => { %>
                 <tr>
-                    <td>
-                        <%= account.Account_name %>
-                    </td>
-                    <td>
-                        <%= account.Account_number %>
-                    </td>
-                    <td>
-                        <%= account.Balance %>
-                    </td>
+                    <td><%= account.Account_name %></td>
+                    <td><%= account.Account_number %></td>
+                    <td><%= account.Balance %></td>
                 </tr>
-                <% }) %>
+            <% }) %>
         </table>
     </div>
+
     <form action="/accounts/make" method="post">
+        <h2 style="margin: 0 0 24px; padding: 0; font-size: 1.3rem;">Open a new account</h2>
         <div id="add_card">
-            <h3>What do you want to call your card</h3>
-            <input type="text" name="cardName" id="cardName" required>
-
-            <input type="submit" value="Submit" class="button, button1" />
-
+            <h3>Account nickname</h3>
+            <input type="text" name="cardName" id="cardName" placeholder="e.g. Savings, Travel..." required>
+            <input type="submit" value="Create Account" class="button, button1" />
             <h2 class="error"> <%= locals.error || null %> </h2>
         </div>
     </form>

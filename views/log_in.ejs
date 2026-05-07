@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log in</title>
+    <title>Log In — NordBank</title>
     <link rel="stylesheet" href="/css/<%= locals.user ? 'logged_in.css' : 'logged_out.css' %>">
 </head>
 <body>
     <%- include("partials/nav") %>
 
     <form action="/users/log_in" method="post">
+        <h2 style="margin: 0 0 24px; padding: 0; font-size: 1.5rem;">Sign in to your account</h2>
+
         <div id="form1">
-            <h3>What is your username</h3>
-            <input type="text" name="userName" id="userName" required>
+            <h3>Username</h3>
+            <input type="text" name="userName" id="userName" placeholder="Enter your username" required>
         </div>
 
         <div id="form2">
-            <h3>What is your Password</h3>
-            <input type="password" name="userPass" id="userPass" required>
+            <h3>Password</h3>
+            <input type="password" name="userPass" id="userPass" placeholder="••••••••" required>
         </div>
 
         <h2 class="error"> <%= locals.error || null %> </h2>
 
-        <input type="submit" value="Submit" class="button, button1" />
+        <input type="submit" value="Log In" class="button, button1" />
     </form>
-    
 </body>
 </html>

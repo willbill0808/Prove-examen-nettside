@@ -3,32 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transfer</title>
+    <title>Transfer — NordBank</title>
     <link rel="stylesheet" href="/css/<%= locals.user ? 'logged_in.css' : 'logged_out.css' %>">
 </head>
 <body>
     <%- include("partials/nav") %>
 
-    <h1>Transfer page</h2>
+    <h1>Transfer Money</h1>
 
     <form action="/users/transfer" method="post">
+        <h2 style="margin: 0 0 24px; padding: 0; font-size: 1.3rem;">New transfer</h2>
+
         <div id="form1">
-            <h3>Which card should the money be taken from</h3>
-            <input type="text" name="cardNumber" id="cardNumber1" required>
+            <h3>From account number</h3>
+            <input type="text" name="cardNumber" id="cardNumber1" placeholder="Source card number" required>
         </div>
 
         <div id="form2">
-            <h3>Which card should recive the money</h3>
-            <input type="text" name="cardNumber" id="cardNumber2" required>
+            <h3>To account number</h3>
+            <input type="text" name="cardNumber" id="cardNumber2" placeholder="Recipient card number" required>
         </div>
 
         <div id="form3">
-            <h3>How much should be transfered</h3>
-            <input type="password" name="amount" id="amount" required>
-            <h4 class="error"> <%= locals.error || null %> </h3>
+            <h3>Amount</h3>
+            <input type="password" name="amount" id="amount" placeholder="0.00" required>
+            <h4 class="error"> <%= locals.error || null %> </h4>
         </div>
 
-        <input type="submit" value="Submit" class="button, button1" />
+        <input type="submit" value="Send Transfer" class="button, button1" />
     </form>
 </body>
 </html>
