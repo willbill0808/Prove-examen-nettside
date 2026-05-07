@@ -32,6 +32,9 @@ async function transfer(cardHolder, card1, card2, amount) {
 
     if (amount <= 0){return 1} // sjekker om amount er over 0
 
+    console.log(card1)
+    console.log(card2)
+
     const Account1 = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card1])
     const Account2 = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card2])
 
