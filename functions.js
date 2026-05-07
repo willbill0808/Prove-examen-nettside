@@ -105,7 +105,7 @@ async function insert_card(User_id, card_name) {
         exists = rows.length > 0;
     }
 
-    await connection.query(`INSERT INTO ${AccountTable} (User_ID, Account_name, Account_number) VALUES (?, ?, ?)`, [User_id, Account_name, card_number]);
+    await connection.query(`INSERT INTO ${AccountTable} (User_ID, Account_name, Account_number) VALUES (?, ?, ?)`, [User_id, card_name, card_number]);
 
     return 0
 }
