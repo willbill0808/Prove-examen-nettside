@@ -41,12 +41,6 @@ router.get("/transfer", async (req, res) => {
     )
     }
     else {
-        const cardHolder = req.payload.ID
-        const cardId = req.body.cardNumber
-        const cardId2 = req.body.cardNumber2
-        const amount =  req.body.amount
-
-        const result = await transfer(cardHolder, cardId, cardId2, amount)
 
         const rows = await get_accounts(req.payload.ID)
         res.render("accounts", {user: req.payload, accounts: rows})
