@@ -11,7 +11,8 @@ const { error } = require("console");
 //
 
 router.get("/log_out", async (req, res) => {
-    await res.clearCookie("Token"); // fjerner jwt info om bruker trykker på log out, 
+    res.clearCookie("Token"); // fjerner jwt info om bruker trykker på log out,
+    req.payload = null // Fjerner all payload data  
     res.render("index", { user: req.payload })
 })
 
