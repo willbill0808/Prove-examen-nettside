@@ -9,34 +9,59 @@
 <body>
     <%- include("partials/nav") %>
 
-    <h1>Your Accounts</h1>
+    <div class="page">
+        <h1>Your Accounts</h1>
+        <p class="subtitle">Overview of all your cards and balances</p>
 
-    <div class="Table" id="account_table">
-        <table cellpadding="6">
-            <tr>
-                <th>Account Name</th>
-                <th>Account Number</th>
-                <th>Balance</th>
-            </tr>
+        <div id="account_table">
+            <div class="cards-grid">
+                <% accounts.forEach(function(account) {
+                    let createdDate = '—';
+                    try {
+                        const raw = typeof account.Created_at === 'string'
+                            ? JSON.parse(account.Created_at)
+                            : account.Created_at;
+                        const d = new Date(raw);
+                        createdDate = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                    } catch(e) {
+                        try {
+                            createdDate = new Date(account.Created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                        } catch(e2) {}
+                    }
+                %>
+                <div class="account-card">
+                    <div class="card-label">Account</div>
+                    <div class="card-name"><%= account.Account_name %></div>
 
-            <% accounts.forEach(account => { %>
-                <tr>
-                    <td><%= account.Account_name %></td>
-                    <td><%= account.Account_number %></td>
-                    <td><%= account.Balance %></td>
-                </tr>
-            <% }) %>
-        </table>
-    </div>
+                    <div class="card-number">
+                        •••• •••• <%= String(account.Account_number).slice(-4) %>
+                    </div>
 
-    <form action="/accounts/make" method="post">
-        <h2 style="margin: 0 0 24px; padding: 0; font-size: 1.3rem;">Open a new account</h2>
-        <div id="add_card">
-            <h3>Account nickname</h3>
-            <input type="text" name="cardName" id="cardName" placeholder="e.g. Savings, Travel..." required>
-            <input type="submit" value="Create Account" class="button, button1" />
-            <h2 class="error"> <%= locals.error || null %> </h2>
+                    <div class="card-balance-label">Balance</div>
+                    <div class="card-balance">
+                        <%= Number(account.Balance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %> kr
+                    </div>
+
+                    <div class="card-created">Opened <%= createdDate %></div>
+                </div>
+                <% }) %>
+            </div>
         </div>
-    </form>
+
+        <form action="/accounts/make" method="post">
+            <h2>Open a new account</h2>
+
+            <div id="add_card">
+                <h3>Account nickname</h3>
+                <input type="text" name="cardName" id="cardName" placeholder="e.g. Savings, Travel, Daily..." required>
+
+                <% if (locals.error) { %>
+                    <h2 class="error"><%= locals.error %></h2>
+                <% } %>
+
+                <input type="submit" value="Create Account" class="button button1" />
+            </div>
+        </form>
+    </div>
 </body>
 </html>

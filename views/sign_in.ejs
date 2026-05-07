@@ -9,26 +9,34 @@
 <body>
     <%- include("partials/nav") %>
 
-    <form action="/users/sign_in" method="post">
-        <h2 style="margin: 0 0 24px; padding: 0; font-size: 1.5rem;">Create an account</h2>
+    <div class="page">
+        <h1>Create Account</h1>
+        <p class="subtitle">Join NordBank today — it only takes a minute</p>
 
-        <div id="form1">
-            <h3>Username</h3>
-            <input type="text" name="userName" id="userName" placeholder="Choose a username" required>
-        </div>
+        <form action="/users/sign_in" method="post">
+            <h2>Choose your credentials</h2>
 
-        <div id="form2">
-            <h3>Password</h3>
-            <input type="password" name="userPass" id="userPass" placeholder="••••••••" required>
-        </div>
+            <div id="form1">
+                <h3>Username</h3>
+                <input type="text" name="userName" id="userName" placeholder="Choose a username" required>
+            </div>
 
-        <div id="form3">
-            <h3>Confirm password</h3>
-            <input type="password" name="userPass2" id="userPass2" placeholder="••••••••" required>
-            <h4 class="error"> <%= locals.error || null %> </h4>
-        </div>
+            <div id="form2">
+                <h3>Password</h3>
+                <input type="password" name="userPass" id="userPass" placeholder="••••••••" required>
+            </div>
 
-        <input type="submit" value="Create Account" class="button, button1" />
-    </form>
+            <div id="form3">
+                <h3>Confirm Password</h3>
+                <input type="password" name="userPass2" id="userPass2" placeholder="••••••••" required>
+            </div>
+
+            <% if (locals.error) { %>
+                <h4 class="error"><%= locals.error %></h4>
+            <% } %>
+
+            <input type="submit" value="Create Account" class="button button1" />
+        </form>
+    </div>
 </body>
 </html>

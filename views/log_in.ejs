@@ -9,22 +9,29 @@
 <body>
     <%- include("partials/nav") %>
 
-    <form action="/users/log_in" method="post">
-        <h2 style="margin: 0 0 24px; padding: 0; font-size: 1.5rem;">Sign in to your account</h2>
+    <div class="page">
+        <h1>Sign In</h1>
+        <p class="subtitle">Access your NordBank account</p>
 
-        <div id="form1">
-            <h3>Username</h3>
-            <input type="text" name="userName" id="userName" placeholder="Enter your username" required>
-        </div>
+        <form action="/users/log_in" method="post">
+            <h2>Your details</h2>
 
-        <div id="form2">
-            <h3>Password</h3>
-            <input type="password" name="userPass" id="userPass" placeholder="••••••••" required>
-        </div>
+            <div id="form1">
+                <h3>Username</h3>
+                <input type="text" name="userName" id="userName" placeholder="Enter your username" required>
+            </div>
 
-        <h2 class="error"> <%= locals.error || null %> </h2>
+            <div id="form2">
+                <h3>Password</h3>
+                <input type="password" name="userPass" id="userPass" placeholder="••••••••" required>
+            </div>
 
-        <input type="submit" value="Log In" class="button, button1" />
-    </form>
+            <% if (locals.error) { %>
+                <h2 class="error"><%= locals.error %></h2>
+            <% } %>
+
+            <input type="submit" value="Log In" class="button button1" />
+        </form>
+    </div>
 </body>
 </html>

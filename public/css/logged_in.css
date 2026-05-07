@@ -1,39 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Syne:wght@700;800&display=swap');
 
 :root {
-    --bg: #0d0f14;
-    --bg-card: #13161e;
-    --bg-hover: #1a1e2a;
-    --border: rgba(255,255,255,0.07);
-    --accent: #00e07a;
-    --accent-dim: rgba(0, 224, 122, 0.12);
-    --accent-glow: rgba(0, 224, 122, 0.25);
-    --text: #e8ecf4;
-    --text-muted: #6b7280;
-    --danger: #ff4d6d;
-    --nav-h: 64px;
+    --bg:          #0d0f14;
+    --bg-card:     #13161e;
+    --bg-hover:    #1a1e2a;
+    --border:      rgba(255,255,255,0.08);
+    --accent:      #00e07a;
+    --accent-dim:  rgba(0,224,122,0.10);
+    --accent-glow: rgba(0,224,122,0.28);
+    --text:        #e8ecf4;
+    --text-muted:  #7a8499;
+    --danger:      #ff4d6d;
+    --nav-h:       64px;
+    --page-w:      860px;
+    --radius:      14px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     background-color: var(--bg);
-    background-image:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,224,122,0.08) 0%, transparent 60%);
+    background-image: radial-gradient(ellipse 90% 45% at 50% -8%, rgba(0,224,122,0.07) 0%, transparent 60%);
     font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
     color: var(--text);
     min-height: 100vh;
 }
 
-/* ── NAV ── */
+/* ─── NAV ─────────────────────────────────────────── */
 nav {
-    background: rgba(13, 15, 20, 0.85);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    padding: 0 28px;
+    background: rgba(13,15,20,0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 0 32px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     height: var(--nav-h);
     border-bottom: 1px solid var(--border);
     position: sticky;
@@ -45,24 +47,27 @@ nav::before {
     content: '◈';
     font-size: 22px;
     color: var(--accent);
-    margin-right: 10px;
-    letter-spacing: -1px;
+    margin-right: 14px;
+    flex-shrink: 0;
 }
 
-/* ── BUTTONS ── */
+.nav-spacer { flex: 1; }
+
+/* ─── NAV BUTTONS ─────────────────────────────────── */
 .button {
     background: transparent;
     color: var(--text-muted);
     border: 1px solid transparent;
-    padding: 8px 15px;
+    padding: 8px 16px;
     cursor: pointer;
     border-radius: 8px;
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 500;
     letter-spacing: 0.02em;
-    transition: color 0.2s, background 0.2s, border-color 0.2s;
+    transition: color 0.18s, background 0.18s, border-color 0.18s;
     white-space: nowrap;
+    line-height: 1;
 }
 
 .button:hover {
@@ -71,166 +76,300 @@ nav::before {
     border-color: var(--border);
 }
 
-/* Active / primary button (submit) */
-input[type="submit"].button,
-input[type="submit"] {
-    background: var(--accent);
-    color: #000;
-    border: none;
-    padding: 12px 20px;
-    width: 100%;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    letter-spacing: 0.03em;
-    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-    box-shadow: 0 0 20px var(--accent-glow);
-    margin-top: 4px;
-}
-
-input[type="submit"]:hover {
-    background: #00f587;
-    box-shadow: 0 0 30px var(--accent-glow);
-    transform: translateY(-1px);
-}
-
-input[type="submit"]:active { transform: translateY(0); }
-
-/* ── USER BADGE ── */
+/* ─── USER + LOGOUT (far right) ───────────────────── */
 #User {
-    margin-left: auto;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.82rem;
     font-weight: 500;
-    color: var(--accent);
-    background: var(--accent-dim);
-    border: 1px solid rgba(0,224,122,0.25);
-    padding: 5px 14px;
-    border-radius: 20px;
-    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    margin-right: 8px;
+    white-space: nowrap;
 }
 
-/* ── HEADINGS ── */
-h1, h2, h3, h4 {
-    font-family: 'Syne', sans-serif;
-    margin-left: 0;
+.btn-logout {
+    background: rgba(255,255,255,0.04);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 7px 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
 }
+.btn-logout:hover {
+    background: rgba(255,77,109,0.12);
+    color: var(--danger);
+    border-color: rgba(255,77,109,0.3);
+}
+
+/* ─── PAGE WRAPPER ────────────────────────────────── */
+.page {
+    max-width: var(--page-w);
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+}
+
+/* ─── HEADINGS ────────────────────────────────────── */
+h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
 
 h1 {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #fff 30%, var(--accent));
+    letter-spacing: -0.04em;
+    background: linear-gradient(130deg, #ffffff 35%, var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    padding: 40px 36px 8px;
-    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    text-align: center;
 }
 
-h2 { font-size: 1.4rem; font-weight: 700; padding: 0 36px; }
-h3 { font-size: 1rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 0.01em; }
-h4 { font-size: 0.9rem; }
-
-/* ── FORM ── */
-form {
-    background: var(--bg-card);
-    width: 400px;
-    margin: 48px auto;
-    padding: 36px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,224,122,0.04);
+h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 24px;
 }
 
-form > div { margin-bottom: 4px; }
-
-label {
-    display: block;
+h3 {
+    font-family: 'DM Sans', sans-serif;
     font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    font-weight: 600;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
-input[type="text"],
-input[type="password"] {
+h4 { font-size: 0.9rem; font-weight: 500; }
+
+.subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 52px;
+    font-weight: 400;
+}
+
+/* ─── FORM ────────────────────────────────────────── */
+form {
+    background: var(--bg-card);
     width: 100%;
-    padding: 12px 14px;
-    margin-top: 4px;
-    margin-bottom: 20px;
+    max-width: 440px;
+    margin: 0 auto 48px;
+    padding: 40px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.55);
+}
+
+form > div { margin-bottom: 2px; }
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    width: 100%;
+    padding: 13px 15px;
+    margin-top: 6px;
+    margin-bottom: 22px;
     background: var(--bg);
     color: var(--text);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 9px;
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
+    font-size: 1rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
     -webkit-appearance: none;
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="number"]:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-dim);
 }
 
-/* ── ERROR ── */
+input[type="submit"] {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 14px 20px;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 9px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    box-shadow: 0 0 24px var(--accent-glow);
+    margin-top: 6px;
+}
+
+input[type="submit"]:hover {
+    background: #00f587;
+    box-shadow: 0 0 36px var(--accent-glow);
+    transform: translateY(-1px);
+}
+
+input[type="submit"]:active { transform: translateY(0); }
+
+/* ─── ERROR ───────────────────────────────────────── */
 .error {
     color: var(--danger);
-    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
     font-weight: 500;
     min-height: 1.2em;
-    padding: 0 36px;
+    margin-bottom: 14px;
+    display: block;
+    text-align: center;
+}
+
+form .error { text-align: left; }
+
+/* ─── SECTION HEADING ─────────────────────────────── */
+.section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+
+/* ─── ACCOUNT CARDS ───────────────────────────────── */
+#account_table { margin-bottom: 48px; }
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.account-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+}
+
+.account-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), rgba(0,224,122,0.25));
+}
+
+.account-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,224,122,0.14);
+    border-color: rgba(0,224,122,0.2);
+}
+
+.card-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--text-muted);
     margin-bottom: 4px;
 }
 
-form .error { padding: 0; margin-bottom: 12px; }
-
-/* ── TABLE ── */
-.Table, #account_table {
-    padding: 32px 36px;
-    overflow-x: auto;
+.card-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 22px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+.card-number {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.14em;
+    margin-bottom: 20px;
+    font-variant-numeric: tabular-nums;
+}
+
+.card-balance-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.card-balance {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+}
+
+.card-created {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+}
+
+/* ─── TABLE fallback ──────────────────────────────── */
+.Table { overflow-x: auto; }
+
 table {
-    width: auto;
+    width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius);
     overflow: hidden;
-    margin: 0;
 }
 
 th {
     background: var(--accent-dim);
     color: var(--accent);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 14px 20px;
-    border-bottom: 1px solid rgba(0,224,122,0.2);
+    border-bottom: 1px solid rgba(0,224,122,0.18);
     text-align: left;
 }
 
 td {
     padding: 14px 20px;
     border-bottom: 1px solid var(--border);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     color: var(--text);
 }
 
 tr:last-child td { border-bottom: none; }
-
-tr:hover td {
-    background: var(--bg-hover);
-    transition: background 0.15s;
-}
+tr:hover td { background: var(--bg-hover); transition: background 0.15s; }
