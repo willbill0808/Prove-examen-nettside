@@ -72,7 +72,7 @@ async function insert_user(UserName, plainPassword) {
     return
 }
 
-async function insert_card(User_id, Account_name) {
+async function insert_card(User_id, card_name) {
 
     const cards = await connection.query(`SELECT Account_name FROM ${AccountTable} WHERE User_id = ?;`, [User_id])
 
@@ -80,10 +80,10 @@ async function insert_card(User_id, Account_name) {
     console.log(cards[0])
     
     for (let i = 0; i < cards[0].length ; i++){
-        console.log(cards[i].Account_name)
-        console.log(Account_name)
+        console.log(cards[0][i].Account_name)
+        console.log(card_name)
         console.log(i)
-        if (cards[i].Account_name === Account_name){ return 1}
+        if (cards[i].Account_name === card_name){ return 1}
     }
 
 
