@@ -1,7 +1,7 @@
 # Prøve-examen-nettside
  
 ## Project: 
-En selfhosted(men ikke lokal) bank nettside
+En bank nettside
 
 ## Tech:
 * Node.js
