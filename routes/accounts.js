@@ -58,6 +58,8 @@ router.post("/transfer", async (req, res) => {
         const cardId2 = req.body.cardNumber2
         const amount =  req.body.amount
 
+        console.log(card2)
+
         const result = await transfer(cardHolder, cardId, cardId2, amount)
 
         if (result == 0){
