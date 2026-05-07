@@ -36,13 +36,17 @@ async function transfer(cardHolder, card1, card2, amount) {
     
     for (let i = 0; i < Accounts[0].length ; i++){ //Sjekker om brukeren som prøver å overføre eier det kortnummeret
         if (Accounts[0][i].User_id === cardHolder){ 
-
+            console.log(i)
+            console.log(Accounts[0][i].User_id === cardHolder)
+            console.log(Accounts[0][i].User_id)
+            console.log(cardHolder)
             if (Accounts[0][i].Balance < amount){ // returner 3 om kort 1 ikke har nok penger
                 return 3
             }
 
             for (let i = 0; i < Accounts[0].length ; i++){ // Sjekker om kort 2 finnes
                 if (Accounts[0][i].Account_number === card2){
+                    
 
                     const result1 = await DB.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE card_number = ?`, [amount, card1])
                     const result2 = await DB.query(`UPDATE ${AccountTable} SET Balance = Balance + ? WHERE card_number = ?`, [amount, card2])
