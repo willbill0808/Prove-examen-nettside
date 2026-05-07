@@ -35,11 +35,11 @@ async function transfer(cardHolder, card1, card2, amount) {
     const Accounts = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable};`)
     
     for (let i = 0; i < Accounts[0].length ; i++){ //Sjekker om brukeren som prøver å overføre eier det kortnummeret
+        console.log(i)
+        console.log(Accounts[0][i].User_id === cardHolder)
+        console.log(Accounts[0][i].User_id)
+        console.log(cardHolder)
         if (Accounts[0][i].User_id === cardHolder){ 
-            console.log(i)
-            console.log(Accounts[0][i].User_id === cardHolder)
-            console.log(Accounts[0][i].User_id)
-            console.log(cardHolder)
             if (Accounts[0][i].Balance < amount){ // returner 3 om kort 1 ikke har nok penger
                 return 3
             }
