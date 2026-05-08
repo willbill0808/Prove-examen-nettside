@@ -7,11 +7,10 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const cookieParser = require("cookie-parser");
 const jwt = require('jsonwebtoken');
-const nodemailer = require("nodemailer");
 
 const userRouter = require("./routes/users")
 const accountRouter = require("./routes/accounts");
-const { test_connection, test_connection_mail, test_connection_mariaDB } = require('./functions');
+const { test_connection_mariaDB, test_connection_mail, test_connection_mariaDB } = require('./functions');
 
 app.set("view engine", "ejs") // sier at "ejs" skal bli brukt og ikke html, ejs filene blir lagret i views/
 
