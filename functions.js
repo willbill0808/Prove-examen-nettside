@@ -17,7 +17,7 @@ const saltRounds = Number(process.env.Hash_SaltRounds) // hvor mange runder med 
 
 const TOKEN = "7c58374bd6f408ae89a21c1a3eabce51";
 
-const transport = Nodemailer.createTransport(
+const transport = nodemailer.createTransport(
   MailtrapTransport({
     token: TOKEN,
   })
