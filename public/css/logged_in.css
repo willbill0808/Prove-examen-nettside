@@ -87,7 +87,7 @@ nav::before {
     white-space: nowrap;
 }
 
-.btn-logout {
+.btn-small {
     background: rgba(255,255,255,0.04);
     color: var(--text-muted);
     border: 1px solid var(--border);
@@ -103,7 +103,7 @@ nav::before {
     display: inline-flex;
     align-items: center;
 }
-.btn-logout:hover {
+.btn-small:hover {
     background: rgba(255,77,109,0.12);
     color: var(--danger);
     border-color: rgba(255,77,109,0.3);
