@@ -58,6 +58,18 @@ async function test_connection_mariaDB() {
 //
 // Functions
 //
+async function add_Email(User, Email) {
+    const [[user]] = await connection.query(`SELECT User_name, Email FROM ${UserTable} WHERE User_name = ?;`, [User])
+
+    if (user.length === 0){ return 1} // fant ingen bruker med det bruker navnet
+    if (user.Email != null) {return 2} // bruker har alerede an email 
+
+    const result = await connection.query(`UPDATE ${UserTable} SET Email = ? WHERE User_name = ?;`, [Email, User])
+
+    return 1
+
+}
+
 function send_mail(recipients, header, content) {
     transport.sendMail({
         from: sender,
@@ -213,4 +225,5 @@ module.exports = { // exporter alle nyttige funksjoner
     get_accounts,
     insert_card,
     transfer,
+    add_Email,
 } 

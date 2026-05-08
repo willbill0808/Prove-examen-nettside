@@ -2,13 +2,39 @@ const express = require("express");
 const router = express.Router();
 const path = require('path');
 
-const { user_taken, insert_user, Authentication, make_jwt} = require("../functions");
+const { user_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
 const { error } = require("console");
 
 
 //
 // Routes
 //
+router.get("/Email", async (req, res) => {
+    if (!req.payload) { // om du ikke er logget inn blir du sent til home
+        res.render("index", { user: req.payload, error: "You need to be loged inn for that page" })
+    }
+    else {
+        res.render("Email", { user: req.payload })
+    }
+})
+
+router.post("/Email", async (req, res) => {
+    if (!req.payload) { // om du ikke er logget inn blir du sent til home
+        res.render("index", { user: req.payload, error: "You need to be loged inn for that page" })
+    }
+    else {
+        const result = await add_Email()
+
+        if (result == 0) {
+            res.render("Email", { user: req.payload, text: "Email added successfully" })
+        } else if (result == 1){
+            res.render("Email", { user: req.payload, text: "No user found with your information" })
+        } else if (result == 2){
+            res.render("Email", { user: req.payload, text: "Your user already has an Email" })
+        }
+    }
+})
+
 
 router.get("/log_out", async (req, res) => {
     res.clearCookie("Token"); // fjerner jwt info om bruker trykker på log out,
@@ -25,26 +51,26 @@ router.post("/log_in", async (req, res) => {
     userName = req.body.userName
     userPass = req.body.userPass
 
-    auth_handle = await Authentication(userName, userPass) 
+    auth_handle = await Authentication(userName, userPass)
 
     if (auth_handle == 0) { // om auth_handle returnerer 0 (ingen feil) så blir jwt tokenen laget og puttet i browseren 
 
         const cookie = await make_jwt(userName)
         res.cookie("Token", cookie, {
             httpOnly: true,
-            secure: false, 
+            secure: false,
             sameSite: "strict",
         });
 
         res.redirect("log_in")
 
     } else if (auth_handle == 1) { // om auth_handle returnerer 1 så ble ikke en bruker funnet med det brukernavnet
-        res.render("log_in", { user: req.payload, error: "Either username or password is wrong"})
-        return 
+        res.render("log_in", { user: req.payload, error: "Either username or password is wrong" })
+        return
     } else if (auth_handle == 2) { // om auth_handle returnerer 2 så var ikke passordet gitt likt som det lagret i databasen 
-        res.render("log_in", { user: req.payload, error: "Either username or password is wrong"})
-        return 
-    } 
+        res.render("log_in", { user: req.payload, error: "Either username or password is wrong" })
+        return
+    }
 })
 
 router.get("/sign_in", (req, res) => {
@@ -67,7 +93,7 @@ router.post("/sign_in", async (req, res) => {
         res.render("sign_in", { user: req.payload, error: "Passwords don't match" })
         return 0
     }
-    
+
     insert_user(userName, userPass) // lager den nye brukeren
     res.render("sign_in", { user: req.payload, text: "User Created successfully" })
 })

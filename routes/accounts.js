@@ -35,8 +35,7 @@ router.post("/make", async (req, res) => {
 
 router.get("/transfer", async (req, res) => {
     if (!req.payload) { // om du ikke er logget inn blir du sent til home
-        res.render("index", {user: req.payload, error: "You need to be loged inn for that page"}
-    )
+        res.render("index", {user: req.payload, error: "You need to be loged inn for that page"})
     }
     else {
 
