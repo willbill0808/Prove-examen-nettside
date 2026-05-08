@@ -68,13 +68,8 @@ router.post("/transfer", async (req, res) => {
             res.render("transfer", {user: req.payload, accounts: rows, error: "Transfer amount must be above 0"})
         } else if (result === 2){ // om result returnerer 2 (ikke noe kort ble funnet, eller kortet som ble funnet er ikke ditt) blir ikke pengene overført, fordi ellers hadde det vert mulig å stjele fra andre sine kontoer
             const rows = await get_accounts(req.payload.ID)
-<<<<<<< HEAD
-            res.render("accounts", {user: req.payload, accounts: rows, error: "You don`t own a card with that number"})
-        } else if (result === 3){
-=======
             res.render("transfer", {user: req.payload, accounts: rows, error: "You don`t own a card with that number"})
         } else if (result === 3){ // om result returnerer 3 (Pengene på kortet er mindre en amount) så blir ikke pengen overført, fordi da kan man bare overføre uendelig med penger
->>>>>>> 2ee1f6c81c76aa1e634de64d0eeca52c100f650c
             const rows = await get_accounts(req.payload.ID)
             res.render("transfer", {user: req.payload, accounts: rows, error: "You don`t have enough on that card to transfer"})
         } else if (result === 4){ // om result returnerer 4 så ble ikke mottaker kontoen funnet
