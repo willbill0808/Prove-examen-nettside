@@ -23,7 +23,7 @@ router.post("/Email", async (req, res) => {
         res.render("index", { user: req.payload, error: "You need to be loged inn for that page" })
     }
     else {
-        const result = await add_Email()
+        const result = await add_Email(req.payload.User_name, req.body.Email)
 
         if (result == 0) {
             res.render("Email", { user: req.payload, text: "Email added successfully" })
