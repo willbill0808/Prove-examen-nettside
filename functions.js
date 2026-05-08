@@ -23,7 +23,7 @@ var connection = mysql.createConnection({
 
 // Create a transporter using SMTP
 const transporter = nodemailer.createTransport({
-    host: "smtp.hotmail.com",
+    host: "smtp-mail.outlook.com ",
     port: 587,
     secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
     auth: {
