@@ -14,7 +14,11 @@
         <p class="subtitle">Your personal banking dashboard</p>
 
         <% if (locals.error) { %>
-            <h2 class="error"><%= locals.error %></h2>
+            <h4 class="error"><%= locals.error %></h4>
+        <% } %>
+
+        <% if (locals.text) { %>
+            <h4 class="text"><%= locals.text %></h4>
         <% } %>
     </div>
 </body>

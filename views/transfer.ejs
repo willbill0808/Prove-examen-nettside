@@ -1,42 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transfer — NordBank</title>
     <link rel="stylesheet" href="/css/<%= locals.user ? 'logged_in.css' : 'logged_out.css' %>">
 </head>
+
 <body>
     <%- include("partials/nav") %>
 
-    <div class="page">
-        <h1>Transfer Money</h1>
-        <p class="subtitle">Move funds between accounts instantly</p>
+        <div class="page">
+            <h1>Transfer Money</h1>
+            <p class="subtitle">Move funds between accounts instantly</p>
 
-        <form action="/users/transfer" method="post">
-            <h2>Transfer details</h2>
+            <form action="/accounts/transfer" method="post">
+                <h2>Transfer details</h2>
 
-            <div id="form1">
-                <h3>From account number</h3>
-                <input type="text" name="cardNumber" id="cardNumber1" placeholder="Source card number" required>
-            </div>
+                <div id="form1">
+                    <h3>From account number</h3>
+                    <select name="cardNumber" id="cardNumber1" placeholder="Source card number" required>
+                        <% accounts.forEach(account=> { %>
 
-            <div id="form2">
-                <h3>To account number</h3>
-                <input type="text" name="cardNumber2" id="cardNumber2" placeholder="Recipient card number" required>
-            </div>
+                            <option value="<%= account.Account_number %>">
+                                <%= account.Account_number %> - <%= account.Account_name %>
+                                ($<%= account.Balance %>)
+                            </option>
 
-            <div id="form3">
-                <h3>Amount (Kr)</h3>
-                <input type="number" name="amount" id="amount" placeholder="0.00" required>
-            </div>
+                            <% }) %>
 
-            <% if (locals.error) { %>
-                <h4 class="error"><%= locals.error %></h4>
-            <% } %>
+                    </select>
+                </div>
 
-            <input type="submit" value="Send Transfer" class="button button1" />
-        </form>
-    </div>
+                <div id="form2">
+                    <h3>To account number</h3>
+                    <input type="text" name="cardNumber2" id="cardNumber2" placeholder="Recipient card number" required>
+                </div>
+
+                <div id="form3">
+                    <h3>Amount (Kr)</h3>
+                    <input type="number" name="amount" id="amount" placeholder="0.00" required>
+                </div>
+
+                <% if (locals.error) { %>
+                    <h4 class="error">
+                        <%= locals.error %>
+                    </h4>
+                    <% } %>
+
+                        <% if (locals.text) { %>
+                            <h4 class="text">
+                                <%= locals.text %>
+                            </h4>
+                            <% } %>
+
+                                <input type="submit" value="Send Transfer" class="button button1" />
+            </form>
+        </div>
 </body>
+
 </html>
