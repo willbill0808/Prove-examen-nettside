@@ -29,6 +29,7 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.16.3",
+    "nodemailer": "^8.0.7",
     "package.json": "^0.0.0"
   },
   "devDependencies": {
