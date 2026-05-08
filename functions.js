@@ -22,22 +22,14 @@ var connection = mysql.createConnection({
     database: DataBase
 }).promise(); // all info om hvordan serveren skal logge seg på og snakke med mariaDB
 
-// Create a transporter using SMTP
-/* const transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com",
-    port: 587,
-    secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
-    auth: {
-        user: mail_user,
-        pass: mail_pass,
-    },
-}); */
-
-const transport = nodemailer.createTransport(
-  MailtrapTransport({
-    token: TOKEN,
-  })
-);
+const transporter = nodemailer.createTransport({
+  host: 'sandbox.smtp.mailtrap.io',
+  port: 2525,
+  auth: {
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS
+  }
+});
 
 async function test_connection_mail() {
     try {
