@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const { MailtrapTransport } = require("mailtrap");
+const { useReducer } = require('react');
 
 const User = process.env.SQL_User
 const PSWD = process.env.SQL_PSWD
@@ -60,6 +61,7 @@ async function test_connection_mariaDB() {
 //
 async function add_Email(User, Email) {
     const [user] = await connection.query(`SELECT User_name, Email FROM ${UserTable} WHERE User_name = ?;`, [User])
+    console.log(user)
 
     if (user.length === 0){ return 1} // fant ingen bruker med det bruker navnet
     if (user.Email != null) {return 2} // bruker har alerede an email 
