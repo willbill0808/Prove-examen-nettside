@@ -178,7 +178,7 @@ async function Authentication(User, plainPassword) { // funksjonen som sjekker o
 connection.query(`CREATE TABLE IF NOT EXISTS ${UserTable} (
     ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     User_name VARCHAR(50) NOT NULL UNIQUE,
-    Email VARCHAR(100) NOT,
+    Email VARCHAR(100),
     Password VARCHAR(255) NOT NULL
 );`) // Lager bruker databasen
 
