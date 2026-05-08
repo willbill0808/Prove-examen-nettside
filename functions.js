@@ -90,6 +90,9 @@ async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å
 
     const [[Account1]] = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card1])
     const [[Account2]] = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card2])
+    const [[result]] = await connection.query(`SELECT User_mame, EMail FROM ${UserTable} WHERE ID = ?;`, [cardHolder])
+
+    const Email = result.Email
 
     if (Account1.length === 0) { return 2 } // om ingen ting er i Account1 så finnes ikke den kort-kontoen
     if (Account1.User_id != cardHolder) { return 2 } // om User_id og cardHolder ikke er like så prøver noen som ikke er den faktiske eieren å overføre
@@ -98,6 +101,19 @@ async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å
 
     const result1 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE Account_number = ?`, [amount, card1])
     const result2 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance + ? WHERE Account_number = ?`, [amount, card2])
+
+    if (Email === null){return 0}
+
+    const content = `
+    Money has been sendt from your account (${card1}).
+    The money was sent to ${card2}.
+    The amount transfered was equal to ${amount}Kr.
+    
+    `
+
+    send_mail(Email, "A transfer has ocured", content)
+
+
 
     return 0 // ingenting galt funnet
 }
