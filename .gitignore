@@ -1,2 +1,4 @@
 #.env
-.env.local
+#.env.local
+
+#begge disse to burde egentlig bli ukommentert, men for visnings skyld skal de bli med i repoet
