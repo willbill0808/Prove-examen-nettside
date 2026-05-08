@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const { MailtrapTransport } = require("mailtrap");
-const { useReducer } = require('react');
 
 const User = process.env.SQL_User
 const PSWD = process.env.SQL_PSWD
