@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
 
 const transporter = nodemailer.createTransport({
   host: 'sandbox.smtp.mailtrap.io',
-  port: 2525,
+  port: 587,
   secure: false,
   logger: true,
   debug: true,
