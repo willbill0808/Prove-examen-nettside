@@ -90,7 +90,7 @@ async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å
 
     const [[Account1]] = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card1])
     const [[Account2]] = await connection.query(`SELECT Account_number, Balance, User_id FROM ${AccountTable} WHERE Account_number = ?;`, [card2])
-    const [[result]] = await connection.query(`SELECT User_mame, EMail FROM ${UserTable} WHERE ID = ?;`, [cardHolder])
+    const [[result]] = await connection.query(`SELECT User_name, Email FROM ${UserTable} WHERE ID = ?;`, [cardHolder])
 
     const Email = result.Email
 
