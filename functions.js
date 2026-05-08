@@ -18,28 +18,15 @@ const saltRounds = Number(process.env.Hash_SaltRounds) // hvor mange runder med 
 const TOKEN = process.env.TOKEN
 
 const transport = nodemailer.createTransport(
-  MailtrapTransport({
-    token: TOKEN,
-  })
+    MailtrapTransport({
+        token: TOKEN,
+    })
 );
 
 const sender = {
-  address: "hello@demomailtrap.co",
-  name: "NordBank",
+    address: "hello@demomailtrap.co",
+    name: "NordBank",
 };
-const recipients = [
-  "williamlrosewell08@gmail.com",
-];
-
-transport
-  .sendMail({
-    from: sender,
-    to: recipients,
-    subject: "You are awesome!",
-    text: "Congrats for sending test email with Mailtrap!",
-    category: "Integration Test",
-  })
-  .then(console.log, console.error);
 
 var connection = mysql.createConnection({
     host: 'localhost',
@@ -52,7 +39,7 @@ var connection = mysql.createConnection({
 async function test_connection_mail() {
     console.log("Testing connection...");
     try {
-        await transporter.verify();
+        await transport.verify();
         console.log("Server is ready to take our messages");
     } catch (err) {
         console.error("Verification failed:", err);
@@ -71,6 +58,17 @@ async function test_connection_mariaDB() {
 //
 // Functions
 //
+function send_mail(recipients, header, content) {
+    transport.sendMail({
+        from: sender,
+        to: recipients,
+        subject: header,
+        text: content,
+        category: "Integration Test",
+    })
+        .then(console.log, console.error);
+}
+
 async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å overføre penger
 
     if (amount <= 0) { return 1 } // sjekker om amount er over 0
@@ -180,6 +178,7 @@ async function Authentication(User, plainPassword) { // funksjonen som sjekker o
 connection.query(`CREATE TABLE IF NOT EXISTS ${UserTable} (
     ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     User_name VARCHAR(50) NOT NULL UNIQUE,
+    Email VARCHAR(100) NOT,
     Password VARCHAR(255) NOT NULL
 );`) // Lager bruker databasen
 
