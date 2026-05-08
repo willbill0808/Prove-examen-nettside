@@ -9,8 +9,8 @@ const DataBase = process.env.SQL_DataBase
 const UserTable = process.env.SQL_UserTable
 const AccountTable = process.env.SQL_AccountTable
 
-const mail_user = process.env.local.SMTP_USER
-const mail_pass = process.env.local.SMTP_PASS
+const mail_user = process.env.SMTP_USER
+const mail_pass = process.env.SMTP_PASS
 
 const saltRounds = Number(process.env.Hash_SaltRounds) // hvor mange runder med genSalt som skal bli gjort før et passord blir hashet
 
