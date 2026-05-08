@@ -27,9 +27,9 @@ router.post("/Email", async (req, res) => {
 
         if (result == 0) {
             res.render("Email", { user: req.payload, text: "Email added successfully" })
-        } else if (result == 1){
+        } else if (result == 1) {
             res.render("Email", { user: req.payload, error: "No user found with your information" })
-        } else if (result == 2){
+        } else if (result == 2) {
             res.render("Email", { user: req.payload, error: "Your user already has an Email" })
         }
     }

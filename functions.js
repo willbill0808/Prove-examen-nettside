@@ -61,7 +61,7 @@ async function test_connection_mariaDB() {
 async function add_Email(User, Email) {
     console.log(User)
     console.log(Email)
-    const [user] = await connection.query(`SELECT User_name, Email FROM ${UserTable} WHERE User_name = ?;`, [User])
+    const [[user]] = await connection.query(`SELECT User_name, Email FROM ${UserTable} WHERE User_name = ?;`, [User])
     console.log(user)
 
     if (user.length === 0){ return 1} // fant ingen bruker med det bruker navnet
