@@ -25,6 +25,9 @@ var connection = mysql.createConnection({
 const transporter = nodemailer.createTransport({
   host: 'sandbox.smtp.mailtrap.io',
   port: 2525,
+  secure: false,
+  logger: true,
+  debug: true,
   auth: {
     user: process.env.MAILTRAP_USER,
     pass: process.env.MAILTRAP_PASS
@@ -32,6 +35,7 @@ const transporter = nodemailer.createTransport({
 });
 
 async function test_connection_mail() {
+    console.log("Testing connection...");
     try {
         await transporter.verify();
         console.log("Server is ready to take our messages");
