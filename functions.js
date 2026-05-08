@@ -17,7 +17,27 @@ var connection = mysql.createConnection({
     database: DataBase
 }).promise(); // all info om hvordan serveren skal logge seg på og snakke med mariaDB
 
-async function test_connection(){
+// Create a transporter using SMTP
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
+    auth: {
+        user: process.env.local.SMTP_USER,
+        pass: process.env.local.SMTP_PASS,
+    },
+});
+
+async function test_connection_mail() {
+    try {
+        await transporter.verify();
+        console.log("Server is ready to take our messages");
+    } catch (err) {
+        console.error("Verification failed:", err);
+    }
+}
+
+async function test_connection_mariaDB() {
     try {
         await connection.query("SELECT 1");
         console.log("Connected to DataBase");
@@ -58,7 +78,7 @@ async function make_jwt(UserName) { // Lager en jwt med all nyttig info om bruke
 }
 
 async function add_admin() { // Legger til en admin bruker om det ikke finnes en enda
-    var taken = await user_taken("Admin") 
+    var taken = await user_taken("Admin")
     if (taken == false) { // om admin brukeren ikke er laget enda så lages den 
         await insert_user("Admin", "admin")
 
@@ -105,7 +125,7 @@ async function insert_card(User_id, card_name) { // funksjonen som lager kort-ko
     while (exists) {
         card_number = `${fourDigits()}-${fourDigits()}-${fourDigits()}-${fourDigits()}`; // bruker fourDigits funksjonen til å lage og formatere et ekte-seende kort nummer
 
-        const [rows] = await connection.query( 
+        const [rows] = await connection.query(
             `SELECT 1 FROM ${AccountTable} WHERE Account_number = ? LIMIT 1`,
             [card_number]
         );
@@ -163,7 +183,8 @@ add_admin()
 
 module.exports = { // exporter alle nyttige funksjoner
     connection,
-    test_connection,
+    test_connection_mariaDB,
+    test_connection_mail,
     user_taken,
     insert_user,
     Authentication,

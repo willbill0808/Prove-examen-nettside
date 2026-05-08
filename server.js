@@ -11,22 +11,10 @@ const nodemailer = require("nodemailer");
 
 const userRouter = require("./routes/users")
 const accountRouter = require("./routes/accounts");
-const { test_connection } = require('./functions');
+const { test_connection, test_connection_mail, test_connection_mariaDB } = require('./functions');
 
 app.set("view engine", "ejs") // sier at "ejs" skal bli brukt og ikke html, ejs filene blir lagret i views/
 
-
-
-// Create a transporter using SMTP
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
 
 ///
 /// Middle-ware
@@ -65,5 +53,6 @@ app.use("/accounts", accountRouter) // sier at den også skal bruke routes fra /
 ////
 app.listen(8080, async () => {
     console.log("\nServer is up and running! On http://localhost:8080")
-    await test_connection() // kjører for å se om du har tilgang til mariaDB datbasen
+    await test_connection_mariaDB() // kjører for å se om du har tilgang til mariaDB datbasen
+    await test_connection_mail()
 })
