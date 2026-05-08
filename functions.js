@@ -1,5 +1,3 @@
-require('dotenv').config({ path: '.env.local' }); 
-
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
