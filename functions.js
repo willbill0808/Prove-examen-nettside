@@ -15,6 +15,35 @@ const mail_pass = process.env.SMTP_PASS
 
 const saltRounds = Number(process.env.Hash_SaltRounds) // hvor mange runder med genSalt som skal bli gjort før et passord blir hashet
 
+const Nodemailer = require("nodemailer");
+const { MailtrapTransport } = require("mailtrap");
+
+const TOKEN = "7c58374bd6f408ae89a21c1a3eabce51";
+
+const transport = Nodemailer.createTransport(
+  MailtrapTransport({
+    token: TOKEN,
+  })
+);
+
+const sender = {
+  address: "hello@demomailtrap.co",
+  name: "Mailtrap Test",
+};
+const recipients = [
+  "williamlrosewell08@gmail.com",
+];
+
+transport
+  .sendMail({
+    from: sender,
+    to: recipients,
+    subject: "You are awesome!",
+    text: "Congrats for sending test email with Mailtrap!",
+    category: "Integration Test",
+  })
+  .then(console.log, console.error);
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: User,
@@ -22,7 +51,7 @@ var connection = mysql.createConnection({
     database: DataBase
 }).promise(); // all info om hvordan serveren skal logge seg på og snakke med mariaDB
 
-const transporter = nodemailer.createTransport({
+/* const transporter = nodemailer.createTransport({
   host: 'sandbox.smtp.mailtrap.io',
   port: 587,
   secure: false,
@@ -32,7 +61,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAILTRAP_USER,
     pass: process.env.MAILTRAP_PASS
   }
-});
+}); */
 
 async function test_connection_mail() {
     console.log("Testing connection...");
