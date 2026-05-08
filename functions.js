@@ -11,6 +11,9 @@ const DataBase = process.env.SQL_DataBase
 const UserTable = process.env.SQL_UserTable
 const AccountTable = process.env.SQL_AccountTable
 
+const mail_user = process.env.local.SMTP_USER
+const mail_pass = process.env.local.SMTP_PASS
+
 const saltRounds = Number(process.env.Hash_SaltRounds) // hvor mange runder med genSalt som skal bli gjort før et passord blir hashet
 
 var connection = mysql.createConnection({
@@ -26,8 +29,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
     auth: {
-        user: process.env.local.SMTP_USER,
-        pass: process.env.local.SMTP_PASS,
+        user: mail_user,
+        pass: mail_pass,
     },
 });
 
