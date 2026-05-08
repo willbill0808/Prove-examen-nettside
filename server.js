@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 
 const userRouter = require("./routes/users")
 const accountRouter = require("./routes/accounts");
-const { test_connection_mariaDB, test_connection_mail, test_connection_mariaDB } = require('./functions');
+const { test_connection_mariaDB, test_connection_mail } = require('./functions');
 
 app.set("view engine", "ejs") // sier at "ejs" skal bli brukt og ikke html, ejs filene blir lagret i views/
 
