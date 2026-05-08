@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
+const { MailtrapTransport } = require("mailtrap");
 
 const User = process.env.SQL_User
 const PSWD = process.env.SQL_PSWD
@@ -32,7 +33,7 @@ var connection = mysql.createConnection({
     },
 }); */
 
-const transport = Nodemailer.createTransport(
+const transport = nodemailer.createTransport(
   MailtrapTransport({
     token: TOKEN,
   })
