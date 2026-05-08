@@ -6,12 +6,26 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const cookieParser = require("cookie-parser");
 const jwt = require('jsonwebtoken');
+const nodemailer = require("nodemailer");
 
 const userRouter = require("./routes/users")
 const accountRouter = require("./routes/accounts");
 const { test_connection } = require('./functions');
 
 app.set("view engine", "ejs") // sier at "ejs" skal bli brukt og ikke html, ejs filene blir lagret i views/
+
+
+
+// Create a transporter using SMTP
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
 
 ///
 /// Middle-ware
