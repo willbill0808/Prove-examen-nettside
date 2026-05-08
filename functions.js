@@ -15,9 +15,6 @@ const mail_pass = process.env.SMTP_PASS
 
 const saltRounds = Number(process.env.Hash_SaltRounds) // hvor mange runder med genSalt som skal bli gjort før et passord blir hashet
 
-const Nodemailer = require("nodemailer");
-const { MailtrapTransport } = require("mailtrap");
-
 const TOKEN = "7c58374bd6f408ae89a21c1a3eabce51";
 
 const transport = Nodemailer.createTransport(
