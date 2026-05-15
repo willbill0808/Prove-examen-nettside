@@ -28,6 +28,7 @@
     "ejs": "^4.0.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "mailtrap": "^4.6.0",
     "mysql2": "^3.16.3",
     "nodemailer": "^8.0.7",
     "package.json": "^0.0.0"
