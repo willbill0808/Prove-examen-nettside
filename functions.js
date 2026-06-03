@@ -222,7 +222,7 @@ async function Authentication(userInfo, plainPassword) { // funksjonen som sjekk
     //var [rows] = await connection.query(`SELECT * FROM ${UserTable} WHERE User_name = ?`, [User])
     comp = await bcrypt.compare(plainPassword, rows[0].Password) // denne bcrypt funksjonen sammen ligner det lagrede hshet passordet med plaintext passordet 
 
-    if (comp) { return [0, null] } // passordene er like 
+    if (comp) { return [0, rows[0].User_name] } // passordene er like 
 
     return [2, null] // passordene er ulike
 }
