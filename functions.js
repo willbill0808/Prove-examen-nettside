@@ -28,6 +28,14 @@ const sender = {
     name: "NordBank",
 };
 
+StartEmail = {
+    from: sender,
+    to: "williamlrosewell08@gmail.com",
+    subject: "You are awesome!",
+    text: "Du kan nå sende emails!",
+    category: "Integration Test",
+}
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: User,
@@ -40,7 +48,8 @@ async function test_connection_mail() {
     console.log("Testing connection...");
     try {
         await transport.verify();
-        console.log("Server is ready to take our messages");
+        await transport.sendMail(StartEmail)
+        console.log("The Email Server is ready to take our messages");
     } catch (err) {
         console.error("Verification failed:", err);
     }
