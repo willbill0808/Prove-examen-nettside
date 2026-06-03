@@ -275,7 +275,7 @@ module.exports = { // exporter alle nyttige funksjoner
     test_connection_mariaDB,
     test_connection_mail,
     user_taken,
-    phone_taken,
+    phone_validate,
     email_taken,
     insert_user,
     Authentication,
