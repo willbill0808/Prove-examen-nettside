@@ -52,9 +52,9 @@ router.post("/log_in", async (req, res) => {
     userInfo = req.body.userInfo
     userPass = req.body.userPass
 
-    auth_handle, userName = await Authentication(userInfo, userPass)
+    auth_handle = await Authentication(userInfo, userPass)
 
-    if (auth_handle == 0) { // om auth_handle returnerer 0 (ingen feil) så blir jwt tokenen laget og puttet i browseren 
+    if (auth_handle[0] == 0) { // om auth_handle returnerer 0 (ingen feil) så blir jwt tokenen laget og puttet i browseren 
 
         const cookie = await make_jwt(userName)
         res.cookie("Token", cookie, {
@@ -65,10 +65,10 @@ router.post("/log_in", async (req, res) => {
 
         res.redirect("log_in")
 
-    } else if (auth_handle == 1) { // om auth_handle returnerer 1 så ble ikke en bruker funnet med det brukernavnet
+    } else if (auth_handle[0] == 1) { // om auth_handle returnerer 1 så ble ikke en bruker funnet med det brukernavnet
         res.render("log_in", { user: req.payload, error: "Either username or password is wrong" })
         return
-    } else if (auth_handle == 2) { // om auth_handle returnerer 2 så var ikke passordet gitt likt som det lagret i databasen 
+    } else if (auth_handle[0] == 2) { // om auth_handle returnerer 2 så var ikke passordet gitt likt som det lagret i databasen 
         res.render("log_in", { user: req.payload, error: "Either username or password is wrong" })
         return
     }
