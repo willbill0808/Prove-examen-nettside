@@ -161,11 +161,13 @@ async function phone_validate(Phone_number) { // funksjonen som ser om et bruker
     console.log(phone_checked)
     console.log(parseFloat(phone_checked))
 
+    if (parseFloat(phone_checked) === NaN) {return 1}
+
     const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE Phone_number = ?;`, [Phone_number])
 
-    if (rows.length === 0) { return false } // om rows er tom så ble ikke noe telefon nummer funnet
+    if (rows.length === 0) { return 2 } // om rows er tom så ble ikke noe telefon nummer funnet
 
-    return true
+    return 0
 }
 
 async function email_taken(email) { // funksjonen som ser om et brukernavn er  i bruk

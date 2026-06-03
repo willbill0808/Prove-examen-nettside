@@ -95,7 +95,12 @@ router.post("/sign_in", async (req, res) => {
         return 0
     }
 
-    if (phoneTaken) { // bruker navnet er tatt 
+    if (phoneTaken == 1) { // bruker navnet er tatt 
+        res.render("sign_in", { user: req.payload, error: "Please only type numbers into the input field" })
+        return 0
+    }
+
+    if (phoneTaken == 2) { // bruker navnet er tatt 
         res.render("sign_in", { user: req.payload, error: "Phone number already in use" })
         return 0
     }
