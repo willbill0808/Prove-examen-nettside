@@ -73,8 +73,8 @@ async function add_Email(User, Email) {
     const [[user]] = await connection.query(`SELECT User_name, Email FROM ${UserTable} WHERE User_name = ?;`, [User])
     console.log(user)
 
-    if (user.length === 0){ return 1} // fant ingen bruker med det bruker navnet
-    if (user.Email != null) {return 2} // bruker har alerede an email 
+    if (user.length === 0) { return 1 } // fant ingen bruker med det bruker navnet
+    if (user.Email != null) { return 2 } // bruker har alerede an email 
 
     const result = await connection.query(`UPDATE ${UserTable} SET Email = ? WHERE User_name = ?;`, [Email, User])
 
@@ -111,7 +111,7 @@ async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å
     const result1 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE Account_number = ?`, [amount, card1])
     const result2 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance + ? WHERE Account_number = ?`, [amount, card2])
 
-    if (Email === null){return 0}
+    if (Email === null) { return 0 }
 
     const content = `
     Money has been sendt from your account (${card1}).
@@ -208,9 +208,14 @@ async function insert_card(User_id, card_name) { // funksjonen som lager kort-ko
 
 async function Authentication(userInfo, plainPassword) { // funksjonen som sjekker om brukernavnet ok passordet tastet inn i /log_in er riktig
 
-    var taken = await connection.query(`SELECT User_name WHERE ? like User_name OR WHERE ? like Phone_number OR WHERE ? like Email VALUES(?, ?, ?)`, [userInfo, userInfo, userInfo])
-
-    console.log(taken)
+    const [rows] = await connection.query(
+        `SELECT * FROM ${UserTable}
+        WHERE User_name = ?
+        OR Phone_number = ?
+        OR Email = ?`,
+        [userInfo, userInfo, userInfo]
+    );
+    console.log(rows)
 
     if (rows.length === 0) { return [1, null] } // om rows er tom så ble ikke noen bruker funnet
 
