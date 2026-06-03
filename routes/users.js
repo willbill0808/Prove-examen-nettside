@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require('path');
 
-const { user_taken, phone_taken, email_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
+const { user_taken, phone_validate, email_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
 const { error } = require("console");
 const { passthrough } = require("body-parser/lib/utils");
 
@@ -87,7 +87,7 @@ router.post("/sign_in", async (req, res) => {
     userPass2 = req.body.userPass2
 
     userTaken = await user_taken(userName) //sjekker om bruker navn er tatt
-    phoneTaken = await phone_taken(phoneNumber) //sjekker om telefon number er brukt allerede
+    phoneTaken = await phone_validate(phoneNumber) //sjekker om telefon number er brukt allerede
     emailTaken = await email_taken(email)
 
     if (userTaken) { // bruker navnet er tatt 

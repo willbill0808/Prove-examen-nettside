@@ -156,7 +156,10 @@ async function user_taken(User) { // funksjonen som ser om et brukernavn er  i b
     return true
 }
 
-async function phone_taken(Phone_number) { // funksjonen som ser om et brukernavn er  i bruk
+async function phone_validate(Phone_number) { // funksjonen som ser om et brukernavn er  i bruk
+    const phone_checked = str.replace("-", '')
+    console.log(phone_checked)
+
     const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE Phone_number = ?;`, [Phone_number])
 
     if (rows.length === 0) { return false } // om rows er tom så ble ikke noe telefon nummer funnet
