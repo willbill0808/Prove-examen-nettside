@@ -158,12 +158,8 @@ async function user_taken(User) { // funksjonen som ser om et brukernavn er  i b
 
 async function phone_validate(Phone_number) { // funksjonen som ser om et brukernavn er  i bruk
     const phone_checked = Phone_number.replaceAll("-", '.')
-    console.log(phone_checked)
-    console.log(parseFloat(phone_checked))
 
-    if (Number.isNaN(parseFloat(phone_checked))) {
-        console.log("parse is true");
-        return 1}
+    if (Number.isNaN(parseFloat(phone_checked))) {return 1}
 
     const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE Phone_number = ?;`, [Phone_number])
     console.log(rows)

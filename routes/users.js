@@ -105,7 +105,7 @@ router.post("/sign_in", async (req, res) => {
         return 0
     }
     if (emailTaken) { // bruker navnet er tatt 
-        res.render("sign_in", { user: req.payload, error: "Phone number already in use" })
+        res.render("sign_in", { user: req.payload, error: "email already in use" })
         return 0
     }
 
