@@ -161,7 +161,7 @@ async function phone_validate(Phone_number) { // funksjonen som ser om et bruker
     console.log(phone_checked)
     console.log(parseFloat(phone_checked))
 
-    if (parseFloat(phone_checked) === NaN) {return 1}
+    if (parseFloat(phone_checked) == NaN) {return 1}
 
     const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE Phone_number = ?;`, [Phone_number])
 
