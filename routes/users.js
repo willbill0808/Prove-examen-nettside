@@ -49,10 +49,10 @@ router.get("/log_in", (req, res) => {
 
 
 router.post("/log_in", async (req, res) => {
-    userName = req.body.userName
+    userInfo = req.body.userInfo
     userPass = req.body.userPass
 
-    auth_handle = await Authentication(userName, userPass)
+    auth_handle, userName = await Authentication(userInfo, userPass)
 
     if (auth_handle == 0) { // om auth_handle returnerer 0 (ingen feil) så blir jwt tokenen laget og puttet i browseren 
 

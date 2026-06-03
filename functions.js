@@ -206,17 +206,20 @@ async function insert_card(User_id, card_name) { // funksjonen som lager kort-ko
     return 0
 }
 
-async function Authentication(User, plainPassword) { // funksjonen som sjekker om brukernavnet ok passordet tastet inn i /log_in er riktig
+async function Authentication(userInfo, plainPassword) { // funksjonen som sjekker om brukernavnet ok passordet tastet inn i /log_in er riktig
 
-    var taken = await user_taken(User)
-    if (taken == false) { return 1 } // ser om brukeren finnes
+    var taken = await connection.query(`SELECT User_name WHERE ? like User_name OR WHERE ? like Phone_number OR WHERE ? like Email`, [userInfo])
+
+    console.log(taken)
+
+    if (rows.length === 0) { return 1, null } // om rows er tom så ble ikke noen bruker funnet
 
     const [rows] = await connection.query(`SELECT * FROM ${UserTable} WHERE User_name = ?`, [User])
     comp = await bcrypt.compare(plainPassword, rows[0].Password) // denne bcrypt funksjonen sammen ligner det lagrede hshet passordet med plaintext passordet 
 
-    if (comp) { return 0 } // passordene er like 
+    if (comp) { return 0, null } // passordene er like 
 
-    return 2 // passordene er ulike
+    return 2, null // passordene er ulike
 }
 
 //
