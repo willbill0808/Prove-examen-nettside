@@ -157,7 +157,7 @@ async function user_taken(User) { // funksjonen som ser om et brukernavn er  i b
 }
 
 async function phone_validate(Phone_number) { // funksjonen som ser om et brukernavn er  i bruk
-    const phone_checked = Phone_number.replace("-", '.')
+    const phone_checked = Phone_number.replaceAll("-", '.')
     console.log(phone_checked)
     console.log(parseFloat(phone_checked))
 
