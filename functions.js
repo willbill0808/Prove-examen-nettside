@@ -157,7 +157,7 @@ async function user_taken(User) { // funksjonen som ser om et brukernavn er  i b
 }
 
 async function phone_validate(Phone_number) { // funksjonen som ser om et brukernavn er  i bruk
-    const phone_checked = str.replace("-", '')
+    const phone_checked = Phone_number.replace("-", '')
     console.log(phone_checked)
 
     const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE Phone_number = ?;`, [Phone_number])
