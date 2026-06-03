@@ -120,7 +120,7 @@ async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å
     
     `
 
-    send_mail(Email, "A transfer has ocured", content)
+    send_mail("williamlrosewell08@gmail.com", email, "En overføring har gått gjennom\n Det ble overført ${amount}kr fra kort nummer ${card1} eid av bruker ${cardHolder} til kort ${card2")
 
 
 
