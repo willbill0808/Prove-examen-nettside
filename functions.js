@@ -208,7 +208,7 @@ async function insert_card(User_id, card_name) { // funksjonen som lager kort-ko
 
 async function Authentication(userInfo, plainPassword) { // funksjonen som sjekker om brukernavnet ok passordet tastet inn i /log_in er riktig
 
-    const [rows] = await connection.query(
+    var [rows] = await connection.query(
         `SELECT * FROM ${UserTable}
         WHERE User_name = ?
         OR Phone_number = ?
@@ -219,7 +219,7 @@ async function Authentication(userInfo, plainPassword) { // funksjonen som sjekk
 
     if (rows.length === 0) { return [1, null] } // om rows er tom så ble ikke noen bruker funnet
 
-    const [rows] = await connection.query(`SELECT * FROM ${UserTable} WHERE User_name = ?`, [User])
+    var [rows] = await connection.query(`SELECT * FROM ${UserTable} WHERE User_name = ?`, [User])
     comp = await bcrypt.compare(plainPassword, rows[0].Password) // denne bcrypt funksjonen sammen ligner det lagrede hshet passordet med plaintext passordet 
 
     if (comp) { return [0, null] } // passordene er like 
