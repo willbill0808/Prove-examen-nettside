@@ -31,7 +31,7 @@ const sender = {
 const StartEmail = {
     from: sender,
     to: "williamlrosewell08@gmail.com",
-    subject: "You are awesome!",
+    subject: "Test mail!",
     text: "Du kan nå sende emails!",
     category: "Integration Test",
 }
@@ -242,7 +242,7 @@ connection.query(`CREATE TABLE IF NOT EXISTS ${UserTable} (
     ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     User_name VARCHAR(50) NOT NULL UNIQUE,
     Phone_number VARCHAR(15) NOT NULL UNIQUE,
-    Email VARCHAR(100),
+    Email VARCHAR(100) NOT NULL UNIQUE,
     Password VARCHAR(255) NOT NULL
 );`) // Lager bruker databasen
 
