@@ -4,6 +4,7 @@ const path = require('path');
 
 const { user_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
 const { error } = require("console");
+const { passthrough } = require("body-parser/lib/utils");
 
 
 //
@@ -79,8 +80,13 @@ router.get("/sign_in", (req, res) => {
 
 router.post("/sign_in", async (req, res) => {
     userName = req.body.userName
+    phoneNumber = req.body.phoneNumber
     userPass = req.body.userPass
     userPass2 = req.body.userPass2
+
+    console.log(phoneNumber)
+
+    pass
 
     taken = await user_taken(userName) //sjekker om bruker navn er tatt
 
