@@ -147,6 +147,14 @@ async function user_taken(User) { // funksjonen som ser om et brukernavn er  i b
     return true
 }
 
+async function phone_taken(Phone_number) { // funksjonen som ser om et brukernavn er  i bruk
+    const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE User_name = ?;`, [Phone_number])
+
+    if (rows.length === 0) { return false } // om rows er tom så ble ikke noe telefon nummer funnet
+
+    return true
+}
+
 async function insert_user(UserName, plainPassword, phoneNumber) { // legger til en ny bruker 
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds); // hasher passordet før det blir lagret i databasen
     const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password, Phone_number) VALUES (?, ?, ?)`, [UserName, HashedPassword, phoneNumber])
@@ -239,6 +247,7 @@ module.exports = { // exporter alle nyttige funksjoner
     test_connection_mariaDB,
     test_connection_mail,
     user_taken,
+    phone_taken,
     insert_user,
     Authentication,
     make_jwt,

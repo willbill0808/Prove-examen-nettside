@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require('path');
 
-const { user_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
+const { user_taken, phone_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
 const { error } = require("console");
 const { passthrough } = require("body-parser/lib/utils");
 
@@ -86,12 +86,17 @@ router.post("/sign_in", async (req, res) => {
 
     console.log(phoneNumber)
 
-    pass
+    userTaken = await user_taken(userName) //sjekker om bruker navn er tatt
 
-    taken = await user_taken(userName) //sjekker om bruker navn er tatt
+    phoneTaken = await phone_taken(phoneNumber) //sjekker om telefon number er brukt allerede
 
-    if (taken) { // bruker navnet er tatt 
+    if (userTaken) { // bruker navnet er tatt 
         res.render("sign_in", { user: req.payload, error: "Username already in use" })
+        return 0
+    }
+
+    if (phoneTaken) { // bruker navnet er tatt 
+        res.render("sign_in", { user: req.payload, error: "Phone number already in use" })
         return 0
     }
 
@@ -100,7 +105,7 @@ router.post("/sign_in", async (req, res) => {
         return 0
     }
 
-    insert_user(userName, userPass) // lager den nye brukeren
+    insert_user(userName, userPass, phoneNumber) // lager den nye brukeren
     res.render("sign_in", { user: req.payload, text: "User Created successfully" })
 })
 
