@@ -28,7 +28,7 @@ const sender = {
     name: "NordBank",
 };
 
-StartEmail = {
+const StartEmail = {
     from: sender,
     to: "williamlrosewell08@gmail.com",
     subject: "You are awesome!",
