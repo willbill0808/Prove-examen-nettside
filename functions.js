@@ -166,6 +166,7 @@ async function phone_validate(Phone_number) { // funksjonen som ser om et bruker
         return 1}
 
     const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE Phone_number = ?;`, [Phone_number])
+    console.log(rows)
 
     if (rows.length === 0) { return 2 } // om rows er tom så ble ikke noe telefon nummer funnet
 
