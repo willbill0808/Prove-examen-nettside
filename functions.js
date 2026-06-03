@@ -140,7 +140,7 @@ async function make_jwt(UserName) { // Lager en jwt med all nyttig info om bruke
 async function add_admin() { // Legger til en admin bruker om det ikke finnes en enda
     var taken = await user_taken("Admin")
     if (taken == false) { // om admin brukeren ikke er laget enda så lages den 
-        await insert_user("Admin", "admin", "111-22-333")
+        await insert_user("Admin", "admin", "111-22-333", "Admin_email")
 
         const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, ["Admin"])
 
@@ -164,9 +164,17 @@ async function phone_taken(Phone_number) { // funksjonen som ser om et brukernav
     return true
 }
 
-async function insert_user(UserName, plainPassword, phoneNumber) { // legger til en ny bruker 
+async function email_taken(email) { // funksjonen som ser om et brukernavn er  i bruk
+    const [rows] = await connection.query(`SELECT email FROM ${UserTable} WHERE email = ?;`, [email])
+
+    if (rows.length === 0) { return false } // om rows er tom så ble ikke noe telefon nummer funnet
+
+    return true
+}
+
+async function insert_user(UserName, plainPassword, phoneNumber, email) { // legger til en ny bruker 
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds); // hasher passordet før det blir lagret i databasen
-    const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password, Phone_number) VALUES (?, ?, ?)`, [UserName, HashedPassword, phoneNumber])
+    const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password, Phone_number, email) VALUES (?, ?, ?, ?)`, [UserName, HashedPassword, phoneNumber, email])
 
     const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName])
 
@@ -215,7 +223,6 @@ async function Authentication(userInfo, plainPassword) { // funksjonen som sjekk
         OR Email = ?`,
         [userInfo, userInfo, userInfo]
     );
-    console.log(rows)
 
     if (rows.length === 0) { return [1, null] } // om rows er tom så ble ikke noen bruker funnet
 
@@ -265,6 +272,7 @@ module.exports = { // exporter alle nyttige funksjoner
     test_connection_mail,
     user_taken,
     phone_taken,
+    email_taken,
     insert_user,
     Authentication,
     make_jwt,

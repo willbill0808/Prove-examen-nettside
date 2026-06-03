@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require('path');
 
-const { user_taken, phone_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
+const { user_taken, phone_taken, email_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
 const { error } = require("console");
 const { passthrough } = require("body-parser/lib/utils");
 
@@ -53,7 +53,6 @@ router.post("/log_in", async (req, res) => {
     userPass = req.body.userPass
 
     auth_handle = await Authentication(userInfo, userPass)
-    console.log(auth_handle)
 
     if (auth_handle[0] == 0) { // om auth_handle returnerer 0 (ingen feil) så blir jwt tokenen laget og puttet i browseren 
         userName = auth_handle[1]
@@ -83,11 +82,13 @@ router.get("/sign_in", (req, res) => {
 router.post("/sign_in", async (req, res) => {
     userName = req.body.userName
     phoneNumber = req.body.phoneNumber
+    email = req.body.email
     userPass = req.body.userPass
     userPass2 = req.body.userPass2
 
     userTaken = await user_taken(userName) //sjekker om bruker navn er tatt
     phoneTaken = await phone_taken(phoneNumber) //sjekker om telefon number er brukt allerede
+    emailTaken = await email_taken(email)
 
     if (userTaken) { // bruker navnet er tatt 
         res.render("sign_in", { user: req.payload, error: "Username already in use" })
@@ -95,6 +96,10 @@ router.post("/sign_in", async (req, res) => {
     }
 
     if (phoneTaken) { // bruker navnet er tatt 
+        res.render("sign_in", { user: req.payload, error: "Phone number already in use" })
+        return 0
+    }
+    if (emailTaken) { // bruker navnet er tatt 
         res.render("sign_in", { user: req.payload, error: "Phone number already in use" })
         return 0
     }
