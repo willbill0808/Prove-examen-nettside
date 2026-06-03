@@ -83,14 +83,14 @@ async function add_Email(User, Email) {
 }
 
 function send_mail(recipients, header, content) {
-    transport.sendMail({
+    mail_to_send = {
         from: sender,
         to: recipients,
         subject: header,
         text: content,
         category: "Integration Test",
-    })
-        .then(console.log, console.error);
+    }
+    transport.sendMail(mail_to_send).then(console.log, console.error);
 }
 
 async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å overføre penger
