@@ -208,7 +208,7 @@ async function insert_card(User_id, card_name) { // funksjonen som lager kort-ko
 
 async function Authentication(userInfo, plainPassword) { // funksjonen som sjekker om brukernavnet ok passordet tastet inn i /log_in er riktig
 
-    var taken = await connection.query(`SELECT User_name WHERE ? like User_name OR WHERE ? like Phone_number OR WHERE ? like Email`, [userInfo])
+    var taken = await connection.query(`SELECT User_name WHERE ? like User_name OR WHERE ? like Phone_number OR WHERE ? like Email VALUES(?, ?, ?)`, [userInfo, userInfo, userInfo])
 
     console.log(taken)
 
