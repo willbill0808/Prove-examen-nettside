@@ -131,7 +131,7 @@ async function make_jwt(UserName) { // Lager en jwt med all nyttig info om bruke
 async function add_admin() { // Legger til en admin bruker om det ikke finnes en enda
     var taken = await user_taken("Admin")
     if (taken == false) { // om admin brukeren ikke er laget enda så lages den 
-        await insert_user("Admin", "admin", 11122333)
+        await insert_user("Admin", "admin", "111-22-333")
 
         const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, ["Admin"])
 
@@ -148,7 +148,7 @@ async function user_taken(User) { // funksjonen som ser om et brukernavn er  i b
 }
 
 async function phone_taken(Phone_number) { // funksjonen som ser om et brukernavn er  i bruk
-    const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE User_name = ?;`, [Phone_number])
+    const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE Phone_number = ?;`, [Phone_number])
 
     if (rows.length === 0) { return false } // om rows er tom så ble ikke noe telefon nummer funnet
 
