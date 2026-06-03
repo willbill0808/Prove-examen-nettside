@@ -131,7 +131,7 @@ async function make_jwt(UserName) { // Lager en jwt med all nyttig info om bruke
 async function add_admin() { // Legger til en admin bruker om det ikke finnes en enda
     var taken = await user_taken("Admin")
     if (taken == false) { // om admin brukeren ikke er laget enda så lages den 
-        await insert_user("Admin", "admin")
+        await insert_user("Admin", "admin", 11122333)
 
         const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, ["Admin"])
 
@@ -147,9 +147,9 @@ async function user_taken(User) { // funksjonen som ser om et brukernavn er  i b
     return true
 }
 
-async function insert_user(UserName, plainPassword) { // legger til en ny bruker 
+async function insert_user(UserName, plainPassword, phoneNumber) { // legger til en ny bruker 
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds); // hasher passordet før det blir lagret i databasen
-    const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password) VALUES (?, ?)`, [UserName, HashedPassword])
+    const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password, Phone_number) VALUES (?, ?, ?)`, [UserName, HashedPassword, phoneNumber])
 
     const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName])
 
