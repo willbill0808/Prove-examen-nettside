@@ -173,6 +173,7 @@ async function email_taken(email) { // funksjonen som ser om et brukernavn er  i
 }
 
 async function insert_user(UserName, plainPassword, phoneNumber, email) { // legger til en ny bruker 
+    console.log(email)
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds); // hasher passordet før det blir lagret i databasen
     const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password, Phone_number, email) VALUES (?, ?, ?, ?)`, [UserName, HashedPassword, phoneNumber, email])
 

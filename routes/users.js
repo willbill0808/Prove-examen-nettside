@@ -109,7 +109,7 @@ router.post("/sign_in", async (req, res) => {
         return 0
     }
 
-    insert_user(userName, userPass, phoneNumber) // lager den nye brukeren
+    insert_user(userName, userPass, phoneNumber, email) // lager den nye brukeren
     res.render("sign_in", { user: req.payload, text: "User Created successfully" })
 })
 
