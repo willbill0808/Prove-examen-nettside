@@ -53,10 +53,11 @@ router.post("/log_in", async (req, res) => {
     userPass = req.body.userPass
 
     auth_handle = await Authentication(userInfo, userPass)
+    console.log(auth_handle)
 
     if (auth_handle[0] == 0) { // om auth_handle returnerer 0 (ingen feil) så blir jwt tokenen laget og puttet i browseren 
         userName == auth_handle[1]
-        
+
         const cookie = await make_jwt(userName)
         res.cookie("Token", cookie, {
             httpOnly: true,
