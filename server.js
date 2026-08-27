@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const userRouter = require("./routes/users")
 const accountRouter = require("./routes/accounts");
 const { test_connection_mariaDB, test_connection_mail } = require('./functions');
+const console = require('console');
 
 app.set("view engine", "ejs") // sier at "ejs" skal bli brukt og ikke html, ejs filene blir lagret i views/
 
@@ -50,7 +51,8 @@ app.use("/accounts", accountRouter) // sier at den også skal bruke routes fra /
 
 ////
 app.listen(8080, async () => {
-    console.log("\nServer is up and running! On http://localhost:8080")
     await test_connection_mariaDB() // kjører for å se om du har tilgang til mariaDB datbasen
     await test_connection_mail()
+    console.log("\nServer is up and running! On http://localhost:8080")
+    console.log("---\n")
 })

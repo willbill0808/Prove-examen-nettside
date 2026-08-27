@@ -37,18 +37,4 @@ Trenger: User_id, card_name; Lager en ny kort-konto knyttet til brukeren med nav
 Trenger: cardHolder, card1, card2, amount; Overfører penger fra card1 til card2, og passer på at man bare kan sende fra sin egen konto.
 
 ---
-# På dagen
-* Email (nodemailer)
-    * Logge inn med email
-    * Få en email hver gang man overfører penger ut av konto
-    * Få en mail hver gang man får penger inn på konto
-    * 2FA
 
-* Transaction history
-    * Route side med all bruker historik
-    * "Dette var ikke meg" funksjon for å undo en tidlige overføring
-    * Sorter etter kort
-
-* Enkle bruker støtte endringer
-    * Slett konto knapp
-    * Enkle settings (light og dark mode)

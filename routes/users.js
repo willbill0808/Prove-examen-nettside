@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const path = require('path');
 
-const { user_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
+const { user_taken, phone_validate, email_taken, insert_user, Authentication, make_jwt, add_Email } = require("../functions");
 const { error } = require("console");
+const { passthrough } = require("body-parser/lib/utils");
 
 
 //
@@ -48,12 +49,13 @@ router.get("/log_in", (req, res) => {
 
 
 router.post("/log_in", async (req, res) => {
-    userName = req.body.userName
+    userInfo = req.body.userInfo
     userPass = req.body.userPass
 
-    auth_handle = await Authentication(userName, userPass)
+    auth_handle = await Authentication(userInfo, userPass)
 
-    if (auth_handle == 0) { // om auth_handle returnerer 0 (ingen feil) så blir jwt tokenen laget og puttet i browseren 
+    if (auth_handle[0] == 0) { // om auth_handle returnerer 0 (ingen feil) så blir jwt tokenen laget og puttet i browseren 
+        userName = auth_handle[1]
 
         const cookie = await make_jwt(userName)
         res.cookie("Token", cookie, {
@@ -64,10 +66,10 @@ router.post("/log_in", async (req, res) => {
 
         res.redirect("log_in")
 
-    } else if (auth_handle == 1) { // om auth_handle returnerer 1 så ble ikke en bruker funnet med det brukernavnet
+    } else if (auth_handle[0] == 1) { // om auth_handle returnerer 1 så ble ikke en bruker funnet med det brukernavnet
         res.render("log_in", { user: req.payload, error: "Either username or password is wrong" })
         return
-    } else if (auth_handle == 2) { // om auth_handle returnerer 2 så var ikke passordet gitt likt som det lagret i databasen 
+    } else if (auth_handle[0] == 2) { // om auth_handle returnerer 2 så var ikke passordet gitt likt som det lagret i databasen 
         res.render("log_in", { user: req.payload, error: "Either username or password is wrong" })
         return
     }
@@ -79,13 +81,31 @@ router.get("/sign_in", (req, res) => {
 
 router.post("/sign_in", async (req, res) => {
     userName = req.body.userName
+    phoneNumber = req.body.phoneNumber
+    email = req.body.email
     userPass = req.body.userPass
     userPass2 = req.body.userPass2
 
-    taken = await user_taken(userName) //sjekker om bruker navn er tatt
+    userTaken = await user_taken(userName) //sjekker om bruker navn er tatt
+    phoneTaken = await phone_validate(phoneNumber) //sjekker om telefon number er brukt allerede
+    emailTaken = await email_taken(email)
 
-    if (taken) { // bruker navnet er tatt 
+    if (userTaken) { // bruker navnet er tatt 
         res.render("sign_in", { user: req.payload, error: "Username already in use" })
+        return 0
+    }
+
+    if (phoneTaken == 1) { // bruker navnet er tatt 
+        res.render("sign_in", { user: req.payload, error: "Please only type numbers into the input field" })
+        return 0
+    }
+
+    if (phoneTaken == 2) { // bruker navnet er tatt 
+        res.render("sign_in", { user: req.payload, error: "Phone number already in use" })
+        return 0
+    }
+    if (emailTaken) { // bruker navnet er tatt 
+        res.render("sign_in", { user: req.payload, error: "email already in use" })
         return 0
     }
 
@@ -94,7 +114,7 @@ router.post("/sign_in", async (req, res) => {
         return 0
     }
 
-    insert_user(userName, userPass) // lager den nye brukeren
+    insert_user(userName, userPass, phoneNumber, email) // lager den nye brukeren
     res.render("sign_in", { user: req.payload, text: "User Created successfully" })
 })
 

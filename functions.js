@@ -28,6 +28,14 @@ const sender = {
     name: "NordBank",
 };
 
+const StartEmail = {
+    from: sender,
+    to: "williamlrosewell08@gmail.com",
+    subject: "Test mail!",
+    text: "Du kan nå sende emails!",
+    category: "Integration Test",
+}
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: User,
@@ -40,7 +48,8 @@ async function test_connection_mail() {
     console.log("Testing connection...");
     try {
         await transport.verify();
-        console.log("Server is ready to take our messages");
+        await transport.sendMail(StartEmail)
+        console.log("The Email Server is ready to take our messages");
     } catch (err) {
         console.error("Verification failed:", err);
     }
@@ -64,8 +73,8 @@ async function add_Email(User, Email) {
     const [[user]] = await connection.query(`SELECT User_name, Email FROM ${UserTable} WHERE User_name = ?;`, [User])
     console.log(user)
 
-    if (user.length === 0){ return 1} // fant ingen bruker med det bruker navnet
-    if (user.Email != null) {return 2} // bruker har alerede an email 
+    if (user.length === 0) { return 1 } // fant ingen bruker med det bruker navnet
+    if (user.Email != null) { return 2 } // bruker har alerede an email 
 
     const result = await connection.query(`UPDATE ${UserTable} SET Email = ? WHERE User_name = ?;`, [Email, User])
 
@@ -74,14 +83,14 @@ async function add_Email(User, Email) {
 }
 
 function send_mail(recipients, header, content) {
-    transport.sendMail({
+    mail_to_send = {
         from: sender,
         to: recipients,
         subject: header,
         text: content,
         category: "Integration Test",
-    })
-        .then(console.log, console.error);
+    }
+    transport.sendMail(mail_to_send).then(console.log, console.error);
 }
 
 async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å overføre penger
@@ -102,7 +111,7 @@ async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å
     const result1 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance - ? WHERE Account_number = ?`, [amount, card1])
     const result2 = await connection.query(`UPDATE ${AccountTable} SET Balance = Balance + ? WHERE Account_number = ?`, [amount, card2])
 
-    if (Email === null){return 0}
+    if (Email === null) { return 0 }
 
     const content = `
     Money has been sendt from your account (${card1}).
@@ -111,7 +120,7 @@ async function transfer(cardHolder, card1, card2, amount) { // funksjonen til å
     
     `
 
-    send_mail(Email, "A transfer has ocured", content)
+    send_mail("williamlrosewell08@gmail.com", email, "En overføring har gått gjennom\n Det ble overført ${amount}kr fra kort nummer ${card1} eid av bruker ${cardHolder} til kort ${card2")
 
 
 
@@ -131,7 +140,7 @@ async function make_jwt(UserName) { // Lager en jwt med all nyttig info om bruke
 async function add_admin() { // Legger til en admin bruker om det ikke finnes en enda
     var taken = await user_taken("Admin")
     if (taken == false) { // om admin brukeren ikke er laget enda så lages den 
-        await insert_user("Admin", "admin")
+        await insert_user("Admin", "admin", "111-22-333", "Admin_email")
 
         const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, ["Admin"])
 
@@ -147,9 +156,31 @@ async function user_taken(User) { // funksjonen som ser om et brukernavn er  i b
     return true
 }
 
-async function insert_user(UserName, plainPassword) { // legger til en ny bruker 
+async function phone_validate(Phone_number) { // funksjonen som ser om et brukernavn er  i bruk
+    const phone_checked = Phone_number.replaceAll("-", '.')
+
+    if (Number.isNaN(parseFloat(phone_checked))) {return 1}
+
+    const [rows] = await connection.query(`SELECT Phone_number FROM ${UserTable} WHERE Phone_number = ?;`, [Phone_number])
+    console.log(rows)
+
+    if (rows.length === 0) { return 2 } // om rows er tom så ble ikke noe telefon nummer funnet
+
+    return 0
+}
+
+async function email_taken(email) { // funksjonen som ser om et brukernavn er  i bruk
+    const [rows] = await connection.query(`SELECT email FROM ${UserTable} WHERE email = ?;`, [email])
+
+    if (rows.length === 0) { return false } // om rows er tom så ble ikke noe telefon nummer funnet
+
+    return true
+}
+
+async function insert_user(UserName, plainPassword, phoneNumber, email) { // legger til en ny bruker 
+    console.log(email)
     HashedPassword = await bcrypt.hash(plainPassword, saltRounds); // hasher passordet før det blir lagret i databasen
-    const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password) VALUES (?, ?)`, [UserName, HashedPassword])
+    const result = await connection.query(`INSERT INTO ${UserTable} (User_name, Password, Phone_number, email) VALUES (?, ?, ?, ?)`, [UserName, HashedPassword, phoneNumber, email])
 
     const [User_id] = await connection.query(`SELECT ID FROM ${UserTable} WHERE User_name = ?;`, [UserName])
 
@@ -189,17 +220,24 @@ async function insert_card(User_id, card_name) { // funksjonen som lager kort-ko
     return 0
 }
 
-async function Authentication(User, plainPassword) { // funksjonen som sjekker om brukernavnet ok passordet tastet inn i /log_in er riktig
+async function Authentication(userInfo, plainPassword) { // funksjonen som sjekker om brukernavnet ok passordet tastet inn i /log_in er riktig
 
-    var taken = await user_taken(User)
-    if (taken == false) { return 1 } // ser om brukeren finnes
+    var [rows] = await connection.query(
+        `SELECT * FROM ${UserTable}
+        WHERE User_name = ?
+        OR Phone_number = ?
+        OR Email = ?`,
+        [userInfo, userInfo, userInfo]
+    );
 
-    const [rows] = await connection.query(`SELECT * FROM ${UserTable} WHERE User_name = ?`, [User])
+    if (rows.length === 0) { return [1, null] } // om rows er tom så ble ikke noen bruker funnet
+
+    //var [rows] = await connection.query(`SELECT * FROM ${UserTable} WHERE User_name = ?`, [User])
     comp = await bcrypt.compare(plainPassword, rows[0].Password) // denne bcrypt funksjonen sammen ligner det lagrede hshet passordet med plaintext passordet 
 
-    if (comp) { return 0 } // passordene er like 
+    if (comp) { return [0, rows[0].User_name] } // passordene er like 
 
-    return 2 // passordene er ulike
+    return [2, null] // passordene er ulike
 }
 
 //
@@ -209,7 +247,8 @@ async function Authentication(User, plainPassword) { // funksjonen som sjekker o
 connection.query(`CREATE TABLE IF NOT EXISTS ${UserTable} (
     ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     User_name VARCHAR(50) NOT NULL UNIQUE,
-    Email VARCHAR(100),
+    Phone_number VARCHAR(15) NOT NULL UNIQUE,
+    Email VARCHAR(100) NOT NULL UNIQUE,
     Password VARCHAR(255) NOT NULL
 );`) // Lager bruker databasen
 
@@ -238,6 +277,8 @@ module.exports = { // exporter alle nyttige funksjoner
     test_connection_mariaDB,
     test_connection_mail,
     user_taken,
+    phone_validate,
+    email_taken,
     insert_user,
     Authentication,
     make_jwt,
